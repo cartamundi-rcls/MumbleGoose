@@ -136,9 +136,9 @@ public class DatabaseManager
     String songsDB = "CREATE TABLE SONGS " +
         "(p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY, " +
         " path VARCHAR(255), " +
-        " artist VARCHAR(255), " +
-        " album VARCHAR(255), " +
-        " title VARCHAR(255), " +
+        " artist TEXT, " +
+        " album TEXT, " +
+        " title TEXT, " +
         " active BOOL, " +
         " hash VARCHAR(100))";
 
