@@ -83,6 +83,8 @@ public class Controller
           {Controller.MAX_VISIBLE_PLAYLIST = Integer.parseInt(lines.get(i).replace("MAX_VISIBLE_PLAYLIST=",""));}
           else if (lines.get(i).startsWith("DEFAULT_VOLUME="))
           {Controller.DEFAULT_VOLUME = Double.parseDouble(lines.get(i).replace("DEFAULT_VOLUME=",""));}
+          else if (lines.get(i).startsWith("DEFAULT_VOLUME="))
+          {Controller.ECHONEST_API_KEY = lines.get(i).replace("ECHONEST_API_KEY=","");}
         }
       }
       catch (IOException e)
