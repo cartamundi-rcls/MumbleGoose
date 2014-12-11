@@ -29,6 +29,7 @@ public class Controller
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
+  public static int SERVER_PORT = 8080;
 
   public static byte[] createChecksum(String filename) throws Exception {
     InputStream fis =  new FileInputStream(filename);
@@ -85,6 +86,8 @@ public class Controller
           {Controller.DEFAULT_VOLUME = Double.parseDouble(lines.get(i).replace("DEFAULT_VOLUME=",""));}
           else if (lines.get(i).startsWith("DEFAULT_VOLUME="))
           {Controller.ECHONEST_API_KEY = lines.get(i).replace("ECHONEST_API_KEY=","");}
+          else if (lines.get(i).startsWith("SEVER_PORT="))
+          {Controller.SERVER_PORT = Integer.parseInt(lines.get(i).replace("SERVER_PORT=",""));}
         }
       }
       catch (IOException e)

@@ -38,8 +38,10 @@ public class AudioController
     }
     try
     {
+      song.getMaxVolume();
       System.gc();
       currentSong = song;
+      normilizeSong(song);
       currentSongJSON = new Gson().toJson(AudioController.instance.currentSong);
       currentMedia = new Media(new File(song.getPath()).toURI().toString());
       currentPlayer = new MediaPlayer(currentMedia);
@@ -80,6 +82,11 @@ public class AudioController
       next();
       ErrorLogger.logError(ex);
     }
+  }
+
+  public void normilizeSong(Song song)
+  {
+
   }
 
   public void identifySong(Song song)

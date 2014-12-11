@@ -79,7 +79,7 @@ public class RemoteControlServer implements Container
     Container container = new RemoteControlServer();
     Server server = new ContainerServer(container);
     Connection connection = new SocketConnection(server);
-    SocketAddress address = new InetSocketAddress(8080);
+    SocketAddress address = new InetSocketAddress(Controller.SERVER_PORT);
     connection.connect(address);
   }
 }

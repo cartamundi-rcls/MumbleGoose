@@ -2,6 +2,10 @@ package com.melvinkellner.musicplayer;
 
 import com.google.gson.Gson;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by mk on 07/10/14.
  */
@@ -18,6 +22,11 @@ public class Song
   public Song()
   {
 
+  }
+
+  public int getMaxVolume()
+  {
+    return 0;
   }
 
   public int getId()
