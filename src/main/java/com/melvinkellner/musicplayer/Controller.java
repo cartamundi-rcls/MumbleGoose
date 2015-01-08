@@ -25,7 +25,7 @@ public class Controller
   public static String WWW_DIR = "www";
   public static int MAX_VISIBLE_PLAYLIST = 15;
   public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests","findsongbystring", "scanForNew", "shuffleplaylist",
-      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags"};
+      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags", "playspecial"};
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
@@ -80,11 +80,11 @@ public class Controller
           {Controller.DB_DIR = lines.get(i).replace("DB_DIR=","");}
           else if (lines.get(i).startsWith("WWW_DIR="))
           {Controller.WWW_DIR = lines.get(i).replace("newMusicDir=","");}
-          else if (lines.get(i).startsWith("WWW_DIR="))
+          else if (lines.get(i).startsWith("MAX_VISIBLE_PLAYLIST="))
           {Controller.MAX_VISIBLE_PLAYLIST = Integer.parseInt(lines.get(i).replace("MAX_VISIBLE_PLAYLIST=",""));}
           else if (lines.get(i).startsWith("DEFAULT_VOLUME="))
           {Controller.DEFAULT_VOLUME = Double.parseDouble(lines.get(i).replace("DEFAULT_VOLUME=",""));}
-          else if (lines.get(i).startsWith("DEFAULT_VOLUME="))
+          else if (lines.get(i).startsWith("ECHONEST_API_KEY="))
           {Controller.ECHONEST_API_KEY = lines.get(i).replace("ECHONEST_API_KEY=","");}
           else if (lines.get(i).startsWith("SEVER_PORT="))
           {Controller.SERVER_PORT = Integer.parseInt(lines.get(i).replace("SERVER_PORT=",""));}
@@ -365,6 +365,14 @@ public class Controller
     else if (command.equals(COMMANDS[15]))
     {
       findAllMissingTags();
+    }
+    else if (command.equals(COMMANDS[16]))
+    {
+      Song song = DatabaseManager.instance.getSpecial(Integer.parseInt(value));
+      if (song != null)
+      {
+        AudioController.instance.playSpecial(song);
+      }
     }
     return command;
   }

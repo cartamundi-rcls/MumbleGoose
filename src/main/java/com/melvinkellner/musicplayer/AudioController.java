@@ -6,6 +6,7 @@ import com.echonest.api.v4.Track;
 import com.google.gson.Gson;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,12 +25,47 @@ public class AudioController
   public String currentSongJSON = "";
 
 
+
   public AudioController()
   {
 
   }
 
+  public void playSpecial(Song song)
+  {
+    if (currentPlayer != null)
+    {
+      final Duration prevduration = currentPlayer.getCurrentTime();
+      currentMedia = new Media(new File(song.getPath()).toURI().toString());
+      currentPlayer = new MediaPlayer(currentMedia);
+      currentPlayer.setVolume(100);
+      currentPlayer.setOnEndOfMedia(new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          playSong(currentSong, prevduration);
+        }
+      });
+      currentPlayer.setOnError(new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          System.out.println("unkown error while playing file ");
+          playSong(currentSong, prevduration);
+        }
+      });
+      currentPlayer.play();
+    }
+  }
+
   public void playSong(Song song)
+  {
+    playSong(song, null);
+  }
+
+  public void playSong(Song song, Duration duration)
   {
     if (currentSong == null)
     {
@@ -45,6 +81,10 @@ public class AudioController
       currentSongJSON = new Gson().toJson(AudioController.instance.currentSong);
       currentMedia = new Media(new File(song.getPath()).toURI().toString());
       currentPlayer = new MediaPlayer(currentMedia);
+      if (duration != null)
+      {
+        currentPlayer.setStartTime(duration);
+      }
       currentPlayer.setVolume(currentVolume);
       currentPlayer.setOnEndOfMedia(new Runnable()
       {
