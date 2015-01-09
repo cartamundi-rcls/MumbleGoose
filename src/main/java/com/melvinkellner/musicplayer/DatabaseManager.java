@@ -249,14 +249,6 @@ public class DatabaseManager
     return null;
   }
 
-  public Song getSpecial(int id)
-  {
-    //temporary
-    Song song = new Song();
-    song.setPath(new File(Controller.DB_DIR + "/" + "dinner.mp3").getAbsolutePath());
-    return song;
-  }
-
   public Song getNextSong()
   {
     try

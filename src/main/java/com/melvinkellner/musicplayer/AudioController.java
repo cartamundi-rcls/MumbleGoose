@@ -37,7 +37,6 @@ public class AudioController
     {
       final Duration prevduration = currentPlayer.getCurrentTime();
       currentPlayer.stop();
-
       currentMedia = new Media(new File(song.getPath()).toURI().toString());
       currentPlayer = new MediaPlayer(currentMedia);
       currentPlayer.setVolume(100);
@@ -56,6 +55,30 @@ public class AudioController
         {
           System.out.println("unkown error while playing file ");
           playSong(currentSong, prevduration);
+        }
+      });
+      currentPlayer.play();
+    }
+    else
+    {
+      currentMedia = new Media(new File(song.getPath()).toURI().toString());
+      currentPlayer = new MediaPlayer(currentMedia);
+      currentPlayer.setVolume(100);
+      currentPlayer.setOnEndOfMedia(new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          playSong(currentSong);
+        }
+      });
+      currentPlayer.setOnError(new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          System.out.println("unkown error while playing file ");
+          playSong(currentSong);
         }
       });
       currentPlayer.play();

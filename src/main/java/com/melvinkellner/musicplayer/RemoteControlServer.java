@@ -49,7 +49,14 @@ public class RemoteControlServer implements Container
             {
               if (query.get(Controller.instance.COMMANDS[i]) != null)
               {
-               body.print(Controller.instance.sendCommand(Controller.instance.COMMANDS[i], query.get(Controller.instance.COMMANDS[i]), query));
+                if (i != 18)
+                {
+                  body.print(Controller.instance.sendCommand(Controller.instance.COMMANDS[i], query.get(Controller.instance.COMMANDS[i]), query));
+                }
+                else
+                {
+                  Controller.instance.saveUploadedFile(request);
+                }
                break commandFinder;
               }
             }

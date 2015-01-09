@@ -8,7 +8,9 @@ import org.apache.commons.io.FileUtils;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.h2.engine.Database;
+import org.simpleframework.http.Part;
 import org.simpleframework.http.Query;
+import org.simpleframework.http.Request;
 
 import java.io.*;
 import java.net.URL;
@@ -22,10 +24,11 @@ public class Controller
   public static String newMusicDir = "newMusic";
   public static String savedMusicDir = "Music";
   public static String DB_DIR = "DB";
+  public static String SOUNDBYTE_DIR = "soundbytes";
   public static String WWW_DIR = "www";
   public static int MAX_VISIBLE_PLAYLIST = 15;
   public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests","findsongbystring", "scanForNew", "shuffleplaylist",
-      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags", "playspecial"};
+      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags", "getspecials", "playspecial", "uploadfile"};
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
@@ -88,6 +91,8 @@ public class Controller
           {Controller.ECHONEST_API_KEY = lines.get(i).replace("ECHONEST_API_KEY=","");}
           else if (lines.get(i).startsWith("SERVER_PORT="))
           {Controller.SERVER_PORT = Integer.parseInt(lines.get(i).replace("SERVER_PORT=",""));}
+          else if (lines.get(i).startsWith("SOUNDBYTE_DIR="))
+          {Controller.SOUNDBYTE_DIR = lines.get(i).replace("SOUNDBYTE_DIR=","");}
         }
       }
       catch (IOException e)
@@ -296,6 +301,42 @@ public class Controller
     return new Gson().toJson(songs);
   }
 
+  private String soundBytesJson()
+  {
+    ArrayList<File> files = new ArrayList<File>(FileUtils.listFiles(new File(SOUNDBYTE_DIR), null, true));
+    String[] names = new String[files.size()];
+    for (int i = 0;i<files.size();i++)
+    {
+      names[i] = files.get(i).getName();
+    }
+    return new Gson().toJson(names);
+  }
+
+  public String saveUploadedFile(Request request) throws IOException
+  {
+    List<Part> list = request.getParts();
+
+    for(Part part : list)
+    {
+      InputStream stream = part.getInputStream();
+      String name = part.getName();
+
+      if(part.isFile())
+      {
+        name = part.getFileName();
+        InputStream initialStream = part.getInputStream();
+        byte[] buffer = new byte[initialStream.available()];
+        initialStream.read(buffer);
+        File targetFile = new File(name);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(buffer);
+        
+        return "file uploaded";
+      }
+    }
+    return "";
+  }
+
   public String sendCommand(String command, String value, Query query)
   {
     if (command.equals(COMMANDS[0]))
@@ -368,9 +409,15 @@ public class Controller
     }
     else if (command.equals(COMMANDS[16]))
     {
-      Song song = DatabaseManager.instance.getSpecial(Integer.parseInt(value));
-      if (song != null)
+      return soundBytesJson();
+    }
+    else if (command.equals(COMMANDS[17]))
+    {
+      File file = new File(Controller.SOUNDBYTE_DIR + "/" + value);
+      if (file.exists())
       {
+        Song song = new Song();
+        song.setPath(file.getAbsolutePath());
         AudioController.instance.playSpecial(song);
       }
     }
