@@ -36,6 +36,8 @@ public class AudioController
     if (currentPlayer != null)
     {
       final Duration prevduration = currentPlayer.getCurrentTime();
+      currentPlayer.stop();
+
       currentMedia = new Media(new File(song.getPath()).toURI().toString());
       currentPlayer = new MediaPlayer(currentMedia);
       currentPlayer.setVolume(100);
