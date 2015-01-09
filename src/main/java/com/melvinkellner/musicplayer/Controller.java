@@ -86,7 +86,7 @@ public class Controller
           {Controller.DEFAULT_VOLUME = Double.parseDouble(lines.get(i).replace("DEFAULT_VOLUME=",""));}
           else if (lines.get(i).startsWith("ECHONEST_API_KEY="))
           {Controller.ECHONEST_API_KEY = lines.get(i).replace("ECHONEST_API_KEY=","");}
-          else if (lines.get(i).startsWith("SEVER_PORT="))
+          else if (lines.get(i).startsWith("SERVER_PORT="))
           {Controller.SERVER_PORT = Integer.parseInt(lines.get(i).replace("SERVER_PORT=",""));}
         }
       }

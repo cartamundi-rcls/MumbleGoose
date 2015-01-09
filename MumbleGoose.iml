@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="1.0" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="MumbleGoose" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="1.0" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -14,14 +14,73 @@
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: commons-io-1.4" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: gson-2.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: h2-1.4.181" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: jEN" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: jid3lib-0.5.4" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: simple-5.1.5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: junit-4.11" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: commons-io-1.4">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/commons-io-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/commons-io-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/commons-io-1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: gson-2.3">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/gson-2.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/gson-2.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/gson-2.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: h2-1.4.181">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/h2-1.4.181.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/h2-1.4.181.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/h2-1.4.181.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: jEN">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jEN.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/jEN.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/jEN.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: jid3lib-0.5.4">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/jid3lib-0.5.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/jid3lib-0.5.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/jid3lib-0.5.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: simple-5.1.5">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/simple-5.1.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/simple-5.1.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/simple-5.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.11" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
 </module>
-
