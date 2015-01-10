@@ -1,0 +1,444 @@
+
+<head>
+<script type="text/javascript" src="jquery-1.11.0.js"></script>
+<style>
+*
+{
+	font-family: sans-serif;
+	font-size: 11pt;
+}
+body{
+	width:100%;
+	height:100%;
+	
+}
+#wrapper
+{
+border-radius:5px;
+	padding:50px;
+	width:700px;
+	/*height:100%;*/
+	background-color:#EEE;
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+	
+}
+table
+{
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+a
+{
+	color: #c11c3e;
+	
+	text-decoration:none;
+	background-color: #EEE;
+	color: #B11;
+	
+}
+p
+{
+	width:230px;
+	margin-left:auto;
+	margin-right:auto;
+}
+p:hover
+{
+	border-radius:5px;
+	background-color: #B11;
+	color:#EEE;
+}
+
+.centered
+{
+	text-align:center;
+}
+
+.smallbutton
+{
+ 	
+ 	width:50px;
+ 	margin:0;
+ 	float:left;
+}
+.topbuttonwrapper
+{
+	width:150px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.ratingwrapper
+{
+	padding-top: 20px;
+	width:150px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+}
+
+th
+{
+	padding: 2px 10px 2px 5px;
+}
+td
+{
+	padding: 2px 10px 2px 5px;
+}
+
+
+
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('star.png') 0 -16px;
+}
+
+
+
+
+</style>
+
+</head>
+
+<html>
+
+<div id="wrapper">
+<input id="passwordTxi" type="password" name="password" style="position: absolute;right: 5px;top: 5px;width: 50px;font-size: 8;" title="Fill in username for personal ratings.">
+<h1 style="font-size:25px; margin-bottom:30px;" class="centered">I will reset my functions, in 5, 4, 3, 2 ...</h1>
+
+<div class="topbuttonwrapper">
+	<a href='javascript:play()'><p class="centered smallbutton">Play</p></a>
+	<a href='javascript:pause()'><p class="centered smallbutton">Pause</p></a>
+	<a href='javascript:next()'><p class="centered smallbutton">Next</p></a>
+</div>
+<br/>
+<div class="ratingwrapper">
+	<span class="rating">
+		<!-- FROM: http://kubyshkin.ru/posts/star-rating-input-pure-css.html -->
+        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1" onclick="javascript:setRating(100)"/>
+        <label for="rating-input-1-5" class="rating-star"></label>
+
+        <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1" onclick="javascript:setRating(75)"/>
+        <label for="rating-input-1-4" class="rating-star"></label>
+
+        <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1" onclick="javascript:setRating(50)"/>
+        <label for="rating-input-1-3" class="rating-star"></label>
+
+        <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1" onclick="javascript:setRating(25)"/>
+        <label for="rating-input-1-2" class="rating-star"></label>
+
+        <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1" onclick="javascript:setRating(0)"/>
+        <label for="rating-input-1-1" class="rating-star"></label>
+	</span>
+</div>
+<br/>
+<div class="centered" style="margin-bottom:30px; margin-top:30px;">
+<form>
+<input type="text" id="volumeformfield" value="0" maxlength="2" style="width:25px"  autofocus/>
+<input type="button" value="-" onClick="decreaseVolume(0.03)">
+<input type="button" value="+" onClick="increaseVolume(0.03)"><br/><br/>
+<input type="button" value="Set Volume" onClick="setvolume()"/>
+</form></div>
+
+<a href="request.html"><p class="centered" style="width:80px;">Request</p></a>
+
+<a href="javascript:addnew()"><p class="centered" style="width:200px;">Search and Add new Files</p></a>
+
+
+<table width="100%" class="centered" style="margin-top:50px; margin-bottom:50px;">
+	<tr>
+		<th>Artist<th>
+		<th>Album<th>
+		<th>Title<th>
+		<th>Rating<th>
+		<th>Comments<th>
+		<th></th>
+	</tr>
+	<tr>
+		<td id="artistcell">null<td>
+		<td id="albumcell">null<td>
+		<td id="titlecell">null<td>
+		<td id="ratingcell">null<td>
+		<td id="commentscell">null<td>
+		<td><a href="edit.php" target="_blank">EDIT</a></td>
+	</tr>
+</table>
+<br />
+<table class="centered" width="100%" id="requests">
+</table>
+<br />
+<table class="centered" width="100%" id="playlist">
+</table>
+<br />
+</div>
+<input type="button" value="DELETE CURRENT SONG" onClick="deleteCurrentSong()"  />
+<input type="button" value="DELETE ALL SONG" onClick="deleteAllSongs()"  />
+
+<!--<audio controls id="audioplayer">
+  <source src="" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>-->
+
+<script>
+
+var refreshTimer = 1000;
+window.setInterval(refresh, refreshTimer);
+
+
+var audioplayer = document.getElementById("audioplayer");
+var currentSongLocation = null;
+var prevSongLoc = null;
+var isLocalPlaying = false;
+//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+var porturl = "http://localhost" + ':8080' + "/" + "index.html";
+
+function refresh()
+{
+	getCurrentSong();
+	getRequests();
+	getQueList();
+	getvolume();
+	setAudioPlayer();
+}
+
+function setAudioPlayer()
+{
+	//if (currentSongLocation != prevSongLoc)
+	//(
+		//audioplayer.src= currentSongLocation;
+		//prevSongLoc = currentSongLocation;
+		//if (isLocalPlaying === true)
+		//(
+			//audioplayer.load(); //call this to just preload the audio without playing
+        		//audio.play(); //call this to play the song right away
+		//)
+	//)
+}
+
+function getRequests()
+{
+        $.ajax({
+                type: 'GET',
+                url: porturl,
+            data: 'getrequests=getrequests',
+            dataType: 'json',
+            cache: false,
+            success: function(result) 
+                {
+                        var table = document.getElementById("requests");
+                        table.innerHTML = "";
+
+                        if(result == 0) return;
+
+
+                        for (var i=0;i<result.length;i++)
+                        {
+                                 // Insert a row in the table at the last row
+                                var newRow   = table.insertRow(i);
+
+                                // Insert a cell in the row at index 0
+                                var placeCell  = newRow.insertCell(0);
+                                var artistCell  = newRow.insertCell(1);
+                                var albumCell  = newRow.insertCell(2);
+                                var titleCell  = newRow.insertCell(3);
+
+                                // Append a text node to the cell
+                                var place = document.createTextNode("REQUEST"); // + (i + 1)
+                                placeCell.appendChild(place);
+                                var artist = document.createTextNode(result[i]["artist"])
+                                artistCell.appendChild(artist); 
+
+                                var album = document.createTextNode(result[i]["album"])
+                                albumCell.appendChild(album); 
+
+                                var song = document.createTextNode(result[i]["title"])
+                                titleCell.appendChild(song);  
+                        }
+            },
+          });
+}
+
+function getQueList()
+{
+	$.ajax({
+                type: 'GET',
+                url: porturl,
+            data: 'getplaylist=getplaylist',
+            dataType: 'json',
+            cache: false,
+            success: function(result) 
+                {
+			var table = document.getElementById("playlist");
+			table.innerHTML = "";
+			for (var i=0;i<result.length;i++)
+			{
+                        	 // Insert a row in the table at the last row
+				var newRow   = table.insertRow(i);
+
+				// Insert a cell in the row at index 0
+				var placeCell  = newRow.insertCell(0);
+				var artistCell  = newRow.insertCell(1);
+				var albumCell  = newRow.insertCell(2);
+				var titleCell  = newRow.insertCell(3);
+
+				// Append a text node to the cell
+				var place = document.createTextNode(i + 1);
+				placeCell.appendChild(place);
+				var artist = document.createTextNode(result[i]["artist"])
+				artistCell.appendChild(artist); 
+
+				var album = document.createTextNode(result[i]["album"])
+				albumCell.appendChild(album); 
+
+				var song = document.createTextNode(result[i]["title"])
+				titleCell.appendChild(song);  
+			}
+            },
+          });
+}
+
+function getCurrentSong()
+{
+	$.ajax({
+		type: 'GET',
+		url: porturl,
+	    data: 'getcurrentsong=currentsong',
+	    dataType: 'json',
+	    cache: false,
+	    success: function(result) 
+		{
+			currentSongLocation = result["path"];
+			document.getElementById("artistcell").innerHTML = result["artist"]
+			document.getElementById("albumcell").innerHTML = result["album"];
+			document.getElementById("titlecell").innerHTML = result["title"]
+			$('#content1').html(result[0]);
+	    },
+		});
+}
+
+function deleteCurrentSong()
+{
+	if (confirm('Are you sure you want to delete this song ?')) {
+    	next();
+	$.ajax({ url: 'functions.php?id=delete'});
+	alert("song deleted");
+	} else {
+   	alert("song not deleted");
+	}
+}
+
+function deleteAllSongs()
+{
+	if (confirm('Are you sure you want to delete ALL songs? U know, like in pressing spacebar.'))
+	{
+		pause();
+		$("body").html("");
+
+		//alert("We ain't so stupid to format a device with a single press on spacebar. Or are we?!?");
+	} 
+	else 
+	{
+   		alert("Smart move! Spacebar is evil!");
+	}
+}
+
+function increaseVolume(val)
+{
+	var vol = parseInt(document.getElementById("volumeformfield").value) / 100 + val;
+	document.getElementById("volumeformfield").value = vol * 100;
+	$.ajax({ url: porturl +"?setvolume=" + vol});
+}
+
+function decreaseVolume(val)
+{
+	var vol = parseInt(document.getElementById("volumeformfield").value) / 100 - val;
+	document.getElementById("volumeformfield").value = vol * 100;
+	$.ajax({ url: porturl +"?setvolume=" + vol});	
+}
+
+function play()
+{
+	$.ajax({url: porturl + "?play=play"});
+}
+
+function pause()
+{
+	$.ajax({url: porturl + "?pause=pause"});
+}
+
+function next()
+{
+	$.ajax({url: porturl + "?next=next"});
+}
+
+function getvolume()
+{
+	$.ajax({
+		type: 'GET',
+		url: porturl,
+	    data: 'getvolume=getvolume',
+	    dataType: 'json',
+	    cache: false,
+	    success: function(result) 
+		{
+			if (document.getElementById("volumeformfield") != document.activeElement)
+			{
+				document.getElementById("volumeformfield").value = result["volume"] * 100;
+			}
+			$('#content1').html(result[0]);
+	    },
+		});
+}
+
+function addnew()
+{
+	$.ajax({url: porturl + "?scanForNew=scanForNew"});
+}
+
+function setvolume()
+{
+	var vol = document.getElementById("volumeformfield").value / 100;
+	$.ajax({ url: porturl +"?setvolume=" + vol});
+}
+
+function setRating(rating)
+{
+	var user = document.getElementById("passwordTxi").value;
+	$.ajax({
+		url: "functions.php?id=setrating&rating=" + rating + "&user=" + user,
+		success:function(result)
+		{
+			alert("Je stem werd geregistreerd. En je hebt geluk: JIJ bent uitverkoren om de query aan te passen zodat hij rekening houdt met de ratings. Enjoy! " + result);
+		}}); // %note: send song_id as well?
+}
+</script>
+
+
+</html>
