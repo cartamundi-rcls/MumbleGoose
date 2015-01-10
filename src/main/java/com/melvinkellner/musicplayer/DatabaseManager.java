@@ -28,6 +28,19 @@ public class DatabaseManager
 
   }
 
+  public void closeDB()
+  {
+    if (conn != null)
+    {
+      try {
+        conn.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      conn = null;
+    }
+  }
+
   public void init()
   {
     try

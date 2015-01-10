@@ -315,12 +315,10 @@ public class Controller
   public String saveUploadedFile(Request request) throws IOException
   {
     List<Part> list = request.getParts();
-
     for(Part part : list)
     {
       InputStream stream = part.getInputStream();
       String name = part.getName();
-
       if(part.isFile())
       {
         name = part.getFileName();
@@ -331,7 +329,10 @@ public class Controller
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(buffer);
         
-        return "file uploaded";
+        Song song = new Song();
+        song.setPath(targetFile.getAbsolutePath());
+        findMissingTags(song);
+        return new Gson().toJson(song);
       }
     }
     return "";

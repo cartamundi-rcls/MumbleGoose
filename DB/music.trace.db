@@ -1,0 +1,36 @@
+01-10 20:42:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SONGS" already exists; SQL statement:
+CREATE TABLE SONGS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  path VARCHAR(255),  artist TEXT,  album TEXT,  title TEXT,  active BOOL,  hash VARCHAR(100)) [42101-181]
+01-10 20:42:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PLAYLIST" already exists; SQL statement:
+CREATE TABLE PLAYLIST (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:42:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQUESTS" already exists; SQL statement:
+CREATE TABLE REQUESTS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:43:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SONGS" already exists; SQL statement:
+CREATE TABLE SONGS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  path VARCHAR(255),  artist TEXT,  album TEXT,  title TEXT,  active BOOL,  hash VARCHAR(100)) [42101-181]
+01-10 20:43:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PLAYLIST" already exists; SQL statement:
+CREATE TABLE PLAYLIST (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:43:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQUESTS" already exists; SQL statement:
+CREATE TABLE REQUESTS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:44:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SONGS" already exists; SQL statement:
+CREATE TABLE SONGS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  path VARCHAR(255),  artist TEXT,  album TEXT,  title TEXT,  active BOOL,  hash VARCHAR(100)) [42101-181]
+01-10 20:44:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PLAYLIST" already exists; SQL statement:
+CREATE TABLE PLAYLIST (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:44:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQUESTS" already exists; SQL statement:
+CREATE TABLE REQUESTS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:47:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SONGS" already exists; SQL statement:
+CREATE TABLE SONGS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  path VARCHAR(255),  artist TEXT,  album TEXT,  title TEXT,  active BOOL,  hash VARCHAR(100)) [42101-181]
+01-10 20:47:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PLAYLIST" already exists; SQL statement:
+CREATE TABLE PLAYLIST (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
+01-10 20:47:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQUESTS" already exists; SQL statement:
+CREATE TABLE REQUESTS (p_id int(11) not NULL AUTO_INCREMENT PRIMARY KEY,  song_id int(11)) [42101-181]
