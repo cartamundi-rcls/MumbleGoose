@@ -55,7 +55,7 @@ public class RemoteControlServer implements Container
                 }
                 else
                 {
-                  Controller.instance.saveUploadedFile(request);
+                  body.print(Controller.instance.saveUploadedFile(request));
                 }
                break commandFinder;
               }

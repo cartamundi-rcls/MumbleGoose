@@ -177,6 +177,37 @@ public class DatabaseManager
     {}
   }
 
+  public boolean addSong(Song song)
+  {
+    String hash;
+    String filePath = song.getPath();
+    try
+    {
+      hash = Controller.getMD5Checksum(filePath);
+      if (getSongByHash(hash) != null)
+      {
+        new File(filePath).delete();
+      }
+      else
+      {
+        File file = new File(filePath);
+        filePath = Controller.savedMusicDir + "/" + hash + ".mp3";
+        FileUtils.copyFile(file, new File(filePath));
+        file.delete();
+        song.setPath(filePath);
+        song.setActive(true);
+        song.setHash(hash);
+        writeSong(song);
+      }
+      return true;
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
   public boolean addSong(String filePath)
   {
     String hash;

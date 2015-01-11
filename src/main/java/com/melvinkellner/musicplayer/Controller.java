@@ -315,6 +315,10 @@ public class Controller
   public String saveUploadedFile(Request request) throws IOException
   {
     List<Part> list = request.getParts();
+    final boolean isSoundByte = getBoolFromParts("isSoundByte", list);
+    final String artist = getStringFromParts("artist", list);
+    final String album = getStringFromParts("album", list);
+    final String title = getStringFromParts("title", list);
     for(Part part : list)
     {
       InputStream stream = part.getInputStream();
@@ -328,15 +332,76 @@ public class Controller
         File targetFile = new File(name);
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(buffer);
-        
-        Song song = new Song();
-        song.setPath(targetFile.getAbsolutePath());
-        findMissingTags(song);
-        return new Gson().toJson(song);
+        outStream.close();
+
+        if (!isSoundByte)
+        {
+          Song song = new Song();
+          song.setPath(targetFile.getAbsolutePath());
+          findMissingTags(song);
+          if (!artist.equals(""))
+          {
+            song.setArtist(artist);
+          }
+          if (!album.equals(""))
+          {
+            song.setAlbum(album);
+          }
+          if (!title.equals(""))
+          {
+            song.setTitle(title);
+          }
+          DatabaseManager.instance.addSong(song);
+          return "added song " + song.getTitle();
+        }
+        else
+        {
+          if (!new File(Controller.SOUNDBYTE_DIR + "/" + targetFile.getName()).exists())
+          {
+            FileUtils.moveFile(targetFile, new File(Controller.SOUNDBYTE_DIR + "/" + targetFile.getName()));
+          }
+          else
+          {
+            targetFile.delete();
+          }
+          return "added soundbyte " + targetFile.getName();
+        }
+      }
+    }
+    return "Failed to add song";
+  }
+
+  public String getStringFromParts(String name, List<Part> list)
+  {
+    for(Part part : list)
+    {
+      if (part.getName().equals(name))
+      {
+        try
+        {
+          return part.getContent();
+        }
+        catch (IOException ex)
+        {
+          ex.printStackTrace();
+        }
       }
     }
     return "";
   }
+
+  public boolean getBoolFromParts(String name, List<Part> list)
+  {
+    for(Part part : list)
+    {
+      if (part.getName().equals(name))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   public String sendCommand(String command, String value, Query query)
   {

@@ -5,13 +5,30 @@
         <title>Untitled Document</title>
     </head>
     <body>
+	<script type="text/javascript">
+	    
+	    //var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+            var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
+	    window.onload = function() 		
+	    {
+		document.uploadForm.action = get_action();
+	    }
 
-    	<form action="http://localhost:8080/index.php?uploadfile=uploadfile" enctype="multipart/form-data" method="post">
-		  <input type="text" name="subject">
-		  <input type="text" name="description">
-		  <input type="file" name="upload">
+	    function get_action() 
+	    {
+		return porturl + "?uploadfile=uploadfile";
+	    }
+	</script>
+
+    	<form name="uploadForm" action="" enctype="multipart/form-data" method="post">
+		  artist: <input type="text" name="artist"><br>
+		  album : <input type="text" name="album"><br>
+		  title :<input type="text" name="title"><br>
+		  soundbyte ? <input type="checkbox" name="isSoundByte" value="true"><br>
+		  file : <input type="file" name="upload"><br>
 		  <input type="submit">
-		</form>
+	</form>
+	
 
 
     </body>
