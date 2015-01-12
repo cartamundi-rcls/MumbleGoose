@@ -405,6 +405,7 @@ public class Controller
 
   public String sendCommand(String command, String value, Query query)
   {
+    System.out.println(command + " " + value);
     if (command.equals(COMMANDS[0]))
     {
       AudioController.instance.resume();
