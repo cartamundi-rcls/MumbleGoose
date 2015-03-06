@@ -28,7 +28,7 @@ public class Controller
   public static String WWW_DIR = "www";
   public static int MAX_VISIBLE_PLAYLIST = 15;
   public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests","findsongbystring", "scanForNew", "shuffleplaylist",
-      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags", "getspecials", "playspecial", "uploadfile"};
+      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags", "getspecials", "playspecial", "uploadfile", "getduration"};
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
@@ -487,6 +487,13 @@ public class Controller
         song.setPath(file.getAbsolutePath());
         AudioController.instance.playSpecial(song);
       }
+    }
+    else if (command.equals(COMMANDS[19]))
+    {
+        HashMap<String, Double> map = new HashMap<String, Double>();
+        map.put("current", AudioController.instance.currentPlayTime());
+        map.put("total", AudioController.instance.getLength());
+        return new Gson().toJson(map);
     }
     return command;
   }
