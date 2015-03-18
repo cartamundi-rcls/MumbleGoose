@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.*;
 
 public class Controller
@@ -27,12 +28,16 @@ public class Controller
   public static String SOUNDBYTE_DIR = "soundbytes";
   public static String WWW_DIR = "www";
   public static int MAX_VISIBLE_PLAYLIST = 15;
-  public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests","findsongbystring", "scanForNew", "shuffleplaylist",
-      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong", "findmissingtags", "getspecials", "playspecial", "uploadfile", "getduration"};
+  public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests",
+          "findsongbystring", "scanForNew", "shuffleplaylist",
+      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong",
+          "findmissingtags", "getspecials", "playspecial", "uploadfile",
+          "getduration", "startstream", "getsongbase64byid"};
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
   public static int SERVER_PORT = 8080;
+  public static String ipadress = "IP_ADDRES";
 
   public static byte[] createChecksum(String filename) throws Exception {
     InputStream fis =  new FileInputStream(filename);
@@ -321,7 +326,6 @@ public class Controller
     final String title = getStringFromParts("title", list);
     for(Part part : list)
     {
-      InputStream stream = part.getInputStream();
       String name = part.getName();
       if(part.isFile())
       {
@@ -405,7 +409,7 @@ public class Controller
 
   public String sendCommand(String command, String value, Query query)
   {
-    System.out.println(command + " " + value);
+    System.out.println(command + " " + value + " " + query.get(Controller.ipadress));
     if (command.equals(COMMANDS[0]))
     {
       AudioController.instance.resume();
@@ -488,12 +492,36 @@ public class Controller
         AudioController.instance.playSpecial(song);
       }
     }
+    //else if (command.equals(COMMANDS[18]))
+    //{
+      //handled in the remote control server
+    //}
     else if (command.equals(COMMANDS[19]))
     {
         HashMap<String, Double> map = new HashMap<String, Double>();
         map.put("current", AudioController.instance.currentPlayTime());
         map.put("total", AudioController.instance.getLength());
         return new Gson().toJson(map);
+    }
+    else if (command.equals(COMMANDS[20]))
+    {
+      if (value.equals("start"))
+      {
+        StreamManager.instance.addStreamer(query.get(Controller.ipadress));
+      }
+      else if (value.equals("stop"))
+      {
+        StreamManager.instance.removeStreamer(query.get(Controller.ipadress));
+      }
+      else if (value.equals("status"))
+      {
+        StreamManager.instance.getAudioStatus(query.get(Controller.ipadress));
+      }
+      return command;
+    }
+    else if (command.equals(COMMANDS[21]))
+    {
+        return StreamManager.instance.getSongBase64ById(Integer.parseInt(value));
     }
     return command;
   }

@@ -1,10 +1,12 @@
 package com.melvinkellner.musicplayer;
 
 import com.google.gson.Gson;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.farng.mp3.MP3File;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -32,9 +34,12 @@ public class DatabaseManager
   {
     if (conn != null)
     {
-      try {
+      try
+      {
         conn.close();
-      } catch (SQLException e) {
+      }
+      catch (SQLException e)
+      {
         e.printStackTrace();
       }
       conn = null;
@@ -433,6 +438,7 @@ public class DatabaseManager
       if (song != null)
       {
         songs.add(song);
+        StreamManager.instance.cacheSong(song);
       }
     }
     currentRequests = songs;
@@ -449,6 +455,7 @@ public class DatabaseManager
       if (song != null)
       {
         visiblePlayList[result.getRow() - 1] = song;
+        StreamManager.instance.cacheSong(song);
       }
     }
     playlistJSON = new Gson().toJson(DatabaseManager.instance.visiblePlayList);

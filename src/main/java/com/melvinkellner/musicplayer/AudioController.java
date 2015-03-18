@@ -25,7 +25,6 @@ public class AudioController
   public String currentSongJSON = "";
 
 
-
   public AudioController()
   {
 
@@ -94,6 +93,7 @@ public class AudioController
   {
     if (currentSong == null)
     {
+      StreamManager.instance.removeCachedSong(currentSong);
       currentSong = DatabaseManager.instance.getNextSong();
       currentSongJSON = new Gson().toJson(AudioController.instance.currentSong);
     }
@@ -102,7 +102,7 @@ public class AudioController
       song.getMaxVolume();
       System.gc();
       currentSong = song;
-      normilizeSong(song);
+      normalizeSong(song);
       currentSongJSON = new Gson().toJson(AudioController.instance.currentSong);
       currentMedia = new Media(new File(song.getPath()).toURI().toString());
       currentPlayer = new MediaPlayer(currentMedia);
@@ -149,9 +149,9 @@ public class AudioController
     }
   }
 
-  public void normilizeSong(Song song)
+  public void normalizeSong(Song song)
   {
-
+    //todo
   }
 
   public void identifySong(Song song)

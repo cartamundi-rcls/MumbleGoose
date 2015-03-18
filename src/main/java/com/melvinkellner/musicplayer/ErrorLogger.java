@@ -9,7 +9,6 @@ public class ErrorLogger
   public static void logError(Exception ex)
   {
     ex.printStackTrace();
-
   }
 
 
