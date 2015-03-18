@@ -45,7 +45,7 @@ public class RemoteControlServer implements Container
             response.setDate("Last-Modified", time);
 
             Query query = request.getQuery();
-            query.put(Controller.ipadress, request.getAddress().toString());
+            query.put(Controller.ipadress, request.getClientAddress().getAddress().getHostAddress());
             commandFinder:for (int i = 0; i < Controller.instance.COMMANDS.length; i++)
             {
               if (query.get(Controller.instance.COMMANDS[i]) != null)
