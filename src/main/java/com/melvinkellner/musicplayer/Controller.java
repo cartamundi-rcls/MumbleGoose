@@ -32,7 +32,7 @@ public class Controller
           "findsongbystring", "scanForNew", "shuffleplaylist",
       "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong",
           "findmissingtags", "getspecials", "playspecial", "uploadfile",
-          "getduration", "startstream", "getsongbase64byid"};
+          "getduration", "stream", "getsongbase64byid"};
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";

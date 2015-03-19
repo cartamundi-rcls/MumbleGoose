@@ -73,8 +73,8 @@ public class StreamManager
         activeStreamers.put(address, System.currentTimeMillis());
         if (!isStreaming)
         {
-            cacheSongs();
             isStreaming = true;
+            cacheSongs();
             connectionThread = new CheckConnectionThread();
             connectionThread.start();
         }

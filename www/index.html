@@ -215,17 +215,18 @@ window.setInterval(refresh, refreshTimer);
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-var isLocalPlaying = false;
 //var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
 var porturl = "http://localhost" + ':8080' + "/" + "index.html";
 
+startStream();
 function refresh()
 {
-	//getCurrentSong();
-	//getRequests();
-	//getQueList();
-	//getvolume();
+	getCurrentSong();
+	getRequests();
+	getQueList();
+	getvolume();
 	//setAudioPlayer();
+	stream();
 }
 
 function setAudioPlayer()
@@ -252,6 +253,7 @@ function getRequests()
             cache: false,
             success: function(result) 
                 {
+					requests = result;
                         var table = document.getElementById("requests");
                         table.innerHTML = "";
 
@@ -295,6 +297,7 @@ function getQueList()
             cache: false,
             success: function(result) 
                 {
+                playlist = result;
 			var table = document.getElementById("playlist");
 			table.innerHTML = "";
 			for (var i=0;i<result.length;i++)
@@ -334,6 +337,7 @@ function getCurrentSong()
 	    cache: false,
 	    success: function(result) 
 		{
+			currentSong = result;
 			currentSongLocation = result["path"];
 			document.getElementById("artistcell").innerHTML = result["artist"]
 			document.getElementById("albumcell").innerHTML = result["album"];
@@ -428,16 +432,78 @@ function setvolume()
 	$.ajax({ url: porturl +"?setvolume=" + vol});
 }
 
-function setRating(rating)
-{
-	var user = document.getElementById("passwordTxi").value;
-	$.ajax({
-		url: "functions.php?id=setrating&rating=" + rating + "&user=" + user,
-		success:function(result)
+
+
+
+
+
+
+
+var currentSong;
+var requests;
+var playlist;
+var cachedSong = new Array();
+var streaming = false;
+
+
+	function startStream()
+	{
+		$.ajax({
+		type: 'GET',
+		url: porturl,
+	    data: 'stream=start',
+	    dataType: 'json',
+	    cache: false,
+	    success: function(result)
 		{
-			alert("Je stem werd geregistreerd. En je hebt geluk: JIJ bent uitverkoren om de query aan te passen zodat hij rekening houdt met de ratings. Enjoy! " + result);
-		}}); // %note: send song_id as well?
+			streaming = true;
+	    },
+		});
+	}
+
+	function stopStream()
+	{
+		$.ajax({url: porturl + "?stream=stop"});
+		streaming = false;
+	}
+
+function stream()
+{
+	if (streaming)
+	{
+		$.ajax({
+		type: 'GET',
+		url: porturl,
+	    data: 'stream=status',
+	    dataType: 'json',
+	    cache: false,
+	    success: function(result)
+		{
+
+	    },
+		});
+	}
 }
+
+function setCachedSong(id)
+{
+	if (cachedSong[id] == null)
+	{
+		$.ajax({
+		type: 'GET',
+		url: porturl,
+	    data: 'getsongbase64byid='+id,
+	    dataType: 'json',
+	    cache: false,
+	    success: function(result)
+		{
+			cachedSong = result[0];
+	    },
+		});
+	}
+}
+
+
 </script>
 
 

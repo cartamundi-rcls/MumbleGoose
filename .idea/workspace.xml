@@ -7,7 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java" afterPath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/melvinkellner/musicplayer/Controller.class" afterPath="$PROJECT_DIR$/build/classes/main/com/melvinkellner/musicplayer/Controller.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/melvinkellner/musicplayer/RemoteControlServer$1.class" afterPath="$PROJECT_DIR$/build/classes/main/com/melvinkellner/musicplayer/RemoteControlServer$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/music.mv.db" afterPath="$PROJECT_DIR$/DB/music.mv.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java" afterPath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/StreamManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/StreamManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -98,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StreamManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StreamManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/StreamManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="908" max-vertical-offset="2772">
-              <caret line="99" column="21" selection-start-line="99" selection-start-column="21" selection-end-line="99" selection-end-column="21" />
+            <state vertical-scroll-proportion="-0.0634715" vertical-offset="1237" max-vertical-offset="2772">
+              <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#605#622#0" expanded="true" />
@@ -118,8 +124,8 @@
       <file leaf-file-name="AudioController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/AudioController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3456" max-vertical-offset="4320">
-              <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="823" max-vertical-offset="4320">
+              <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
               <folding>
                 <element signature="e#2220#2221#0" expanded="true" />
                 <element signature="e#2250#2251#0" expanded="true" />
@@ -128,11 +134,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RemoteControlServer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RemoteControlServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8076416" vertical-offset="323" max-vertical-offset="1458">
-              <caret line="68" column="32" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="431" max-vertical-offset="1458">
+              <caret line="53" column="17" selection-start-line="53" selection-start-column="17" selection-end-line="53" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.555555" vertical-offset="3810" max-vertical-offset="9288">
+              <caret line="226" column="6" selection-start-line="226" selection-start-column="6" selection-end-line="226" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -141,8 +157,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="7995" max-vertical-offset="9234">
-              <caret line="501" column="28" selection-start-line="501" selection-start-column="28" selection-end-line="501" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9234">
+              <caret line="34" column="53" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -447,9 +463,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/ErrorLogger.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/DatabaseManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/AudioController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/StreamManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java" />
+        <option value="$PROJECT_DIR$/www/StreamController.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java" />
+        <option value="$PROJECT_DIR$/www/index.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/StreamManager.java" />
       </list>
     </option>
   </component>
@@ -615,6 +633,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MumbleGoose" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MumbleGoose" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MumbleGoose" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -925,7 +957,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1645" height="1229" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -999,7 +1031,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="353" />
+      <option name="time" value="363" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1008,24 +1040,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="113" max-vertical-offset="846">
-          <caret line="39" column="21" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/DatabaseManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="9090">
-          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1026" max-vertical-offset="1530">
@@ -1409,17 +1423,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/AudioController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3456" max-vertical-offset="4320">
-          <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
-          <folding>
-            <element signature="e#2220#2221#0" expanded="true" />
-            <element signature="e#2250#2251#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/DatabaseManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6560" max-vertical-offset="9270">
@@ -1430,10 +1433,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.555555" vertical-offset="3810" max-vertical-offset="9288">
+          <caret line="226" column="6" selection-start-line="226" selection-start-column="6" selection-end-line="226" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9234">
+          <caret line="34" column="53" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="431" max-vertical-offset="1458">
+          <caret line="53" column="17" selection-start-line="53" selection-start-column="17" selection-end-line="53" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/AudioController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="823" max-vertical-offset="4320">
+          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <folding>
+            <element signature="e#2220#2221#0" expanded="true" />
+            <element signature="e#2250#2251#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/StreamManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="908" max-vertical-offset="2772">
-          <caret line="99" column="21" selection-start-line="99" selection-start-column="21" selection-end-line="99" selection-end-column="21" />
+        <state vertical-scroll-proportion="-0.0634715" vertical-offset="1237" max-vertical-offset="2772">
+          <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#605#622#0" expanded="true" />
@@ -1442,22 +1480,6 @@
             <element signature="e#1626#1627#0" expanded="true" />
             <element signature="e#1824#1840#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7995" max-vertical-offset="9234">
-          <caret line="501" column="28" selection-start-line="501" selection-start-column="28" selection-end-line="501" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/RemoteControlServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8076416" vertical-offset="323" max-vertical-offset="1458">
-          <caret line="68" column="32" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
