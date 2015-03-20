@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <script type="text/javascript" src="jquery-1.11.0.js"></script>
+        <script type="text/javascript" src="ChangeTheme.js"></script>
+
+        <title id="docTitle">Edit song</title>
+        
+        <link rel="stylesheet" type="text/css" title="dark" href="dark.css">
+        <link rel="alternate stylesheet" type="text/css" title="light" href="light.css">
+        <link rel="alternate stylesheet" type="text/css" title="pink" href="pink.css">
+    </head>
+
+    <body onload="set_style_from_cookie()">
+        <div id="wrapper">
+            <table>
+                <tr><td>artist:</td><td><input class="volumeButton" type="text" length="200" id="artist"/></td></tr>
+                <tr><td>album:</td><td><input class="volumeButton" type="text" length="200" id="album" /></td></tr>
+                <tr><td>title:</td><td><input class="volumeButton" type="text" length="200" id="title" /></td></tr>
+                <tr><td>comments:</td><td><input class="volumeButton" type="text" length="200" id="comments" /></td></tr>
+                <tr><td><input class="volumeButton" type="button" value="apply" onclick="applyChanges()"/></td></tr>
+            </table>
+        </div>
+    </body>
+
+<script>
+var currentId;
+
+getCurrentSong();
+
+function getCurrentSong()
+{
+        $.ajax({
+                type: 'GET',
+                url: 'functions.php',
+            data: 'id=currentsong',
+            dataType: 'json',
+            cache: false,
+            success: function(result) 
+                {
+			currentId = result[0];
+                        document.getElementById("artist").value = result[2];
+                        document.getElementById("album").value = result[3];
+                        document.getElementById("title").value = result[4];
+                        document.getElementById("comments").value = result[6];
+                        $('#content1').html(result[0]);
+            },
+                });
+}
+
+function applyChanges()
+{
+	$.ajax({
+                url: "functions.php?id=editSong&songid=" + currentId + "&artist=" + document.getElementById("artist").value + "&album=" + document.getElementById("album").value + "&title=" + document.getElementById("title").value + "&comment=" + document.getElementById("comments").value ,
+                success:function(result)
+                {
+                       
+                }});
+
+}
+
+</script>
+</html>
+

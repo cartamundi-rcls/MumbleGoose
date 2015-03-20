@@ -1,0 +1,198 @@
+*
+{
+	font-family: sans-serif;
+	font-size: 11pt;
+}
+
+body
+{
+	width:100%;
+	height:100%;
+    background-color: #1e1e1e;
+
+    background: -webkit-linear-gradient(left, rgb(255, 144, 186) , white); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, rgb(255, 144, 186) , white); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, rgb(255, 144, 186) , white); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, rgb(255, 144, 186) , white); /* Standard syntax */
+
+    color: white;
+}
+
+#wrapper
+{
+	border-radius:15px;
+	padding:50px;
+	width:700px;
+
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+
+    background-color: rgba(255,255,255, 0.3);
+    color: #cccccc;
+
+    border: 2px solid white;
+    border-radius: 15px;
+
+}
+
+h1
+{
+	font-size:25px;
+	margin-bottom:30px;
+    color: rgb(255, 101, 200);
+
+    text-shadow:
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;  
+}
+
+a
+{
+    color: white;
+	text-decoration:none;
+}
+
+table
+{
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+table.centered
+{
+    color: #cccccc;
+    text-align: left;
+}
+
+p
+{
+	color: white;
+	width:230px;
+	margin-left:auto;
+	margin-right:auto;
+}
+p:hover
+{
+	border-radius:5px;
+	background-color: rgba(255,255,255, 0.3);
+	/*color:#EEE;*/
+}
+
+.centered
+{
+	text-align:center;
+}
+
+.volumeButton
+{
+	text-align: center;
+	background-image:none;
+	background-color: white;
+	color: rgb(255, 144, 186);
+
+	padding-top: 6px;
+    border-radius:6px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+
+.bottomButton
+{
+	background-image:none;
+	background-color: white;
+	color: rgb(255, 144, 186);
+
+	padding-top: 6px;
+    border-radius:6px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+}
+
+.smallbutton
+{
+ 	
+ 	width:50px;
+ 	margin:0;
+ 	float:left;
+}
+.topbuttonwrapper
+{
+	width:150px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+a.controlButton
+{
+    color: rgba(255, 144, 186, 0.5);	
+}
+
+.ratingwrapper
+{
+	padding-top: 20px;
+	width:150px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+}
+
+th
+{
+	background-color: rgba(255, 144, 186, 0.5);
+    color: white;
+	padding: 2px 10px 2px 5px;
+}
+td
+{
+	background-color: rgba(255, 144, 186, 0.5);
+    color: white;
+	padding: 2px 10px 2px 5px;
+}
+
+tr.uneven
+{
+	background-color: rgb(255, 144, 186);
+    color: white;
+}
+
+tr.even
+{
+	background-color: white;
+    color: rgb(255, 144, 186);
+}
+
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('star_pink.png') 0 -16px;
+}
+

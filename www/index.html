@@ -1,232 +1,139 @@
-
-<head>
-<script type="text/javascript" src="jquery-1.11.0.js"></script>
-<style>
-*
-{
-	font-family: sans-serif;
-	font-size: 11pt;
-}
-body{
-	width:100%;
-	height:100%;
-	
-}
-#wrapper
-{
-border-radius:5px;
-	padding:50px;
-	width:700px;
-	/*height:100%;*/
-	background-color:#EEE;
-	margin-left:auto;
-	margin-right:auto;
-	position: relative;
-	
-}
-table
-{
-	border-spacing: 0;
-	border-collapse: collapse;
-}
-a
-{
-	color: #c11c3e;
-	
-	text-decoration:none;
-	background-color: #EEE;
-	color: #B11;
-	
-}
-p
-{
-	width:230px;
-	margin-left:auto;
-	margin-right:auto;
-}
-p:hover
-{
-	border-radius:5px;
-	background-color: #B11;
-	color:#EEE;
-}
-
-.centered
-{
-	text-align:center;
-}
-
-.smallbutton
-{
- 	
- 	width:50px;
- 	margin:0;
- 	float:left;
-}
-.topbuttonwrapper
-{
-	width:150px;
-	margin-left:auto;
-	margin-right:auto;
-}
-
-.ratingwrapper
-{
-	padding-top: 20px;
-	width:150px;
-	margin-left:auto;
-	margin-right:auto;
-	text-align: center;
-}
-
-th
-{
-	padding: 2px 10px 2px 5px;
-}
-td
-{
-	padding: 2px 10px 2px 5px;
-}
-
-
-
-
-.rating {
-    overflow: hidden;
-    display: inline-block;
-    font-size: 0;
-    position: relative;
-}
-.rating-input {
-    float: right;
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    margin: 0 0 0 -16px;
-    opacity: 0;
-}
-.rating:hover .rating-star:hover,
-.rating:hover .rating-star:hover ~ .rating-star,
-.rating-input:checked ~ .rating-star {
-    background-position: 0 0;
-}
-.rating-star,
-.rating:hover .rating-star {
-    position: relative;
-    float: right;
-    display: block;
-    width: 16px;
-    height: 16px;
-    background: url('star.png') 0 -16px;
-}
-
-
-
-
-</style>
-
-</head>
-
 <html>
+	<head>
+		<script type="text/javascript" src="jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="ChangeTheme.js"></script>
 
-<div id="wrapper">
-<input id="passwordTxi" type="password" name="password" style="position: absolute;right: 5px;top: 5px;width: 50px;font-size: 8;" title="Fill in username for personal ratings.">
-<h1 style="font-size:25px; margin-bottom:30px;" class="centered">I will reset my functions, in 5, 4, 3, 2 ...</h1>
+		<title id="docTitle">Music player</title>
+		
+		<link rel="stylesheet" type="text/css" title="dark" href="dark.css">
+		<link rel="alternate stylesheet" type="text/css" title="light" href="light.css">
+		<link rel="alternate stylesheet" type="text/css" title="pink" href="pink.css">
+		<link rel="alternate stylesheet" type="text/css" title="pic" href="pic.css">
+	</head>
 
-<div class="topbuttonwrapper">
-	<a href='javascript:play()'><p class="centered smallbutton">Play</p></a>
-	<a href='javascript:pause()'><p class="centered smallbutton">Pause</p></a>
-	<a href='javascript:next()'><p class="centered smallbutton">Next</p></a>
-</div>
-<br/>
-<div class="ratingwrapper">
-	<span class="rating">
-		<!-- FROM: http://kubyshkin.ru/posts/star-rating-input-pure-css.html -->
-        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1" onclick="javascript:setRating(100)"/>
-        <label for="rating-input-1-5" class="rating-star"></label>
+	<body onload="set_style_from_cookie()">
+		<div id="wrapper">
+			<table width="100%" class="centered">
+				<tr>
+					<td align="center"><a href="request.html">Request</a></td>
+					<td align="center"><a href="upload.html" target="_blank">Upload</a></td>
+					<td align="center"><a href="javascript:addnew()">Search and Add new Files</a></td>
+					<td align="center"><a href="http://music.playlane.be:8000/mystream.mp3.m3u">Stream</a></td>
+					<td align="center"><a href="soundbytes.html">SoundBytes</a></td>
+				</tr>
+			</table>
 
-        <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1" onclick="javascript:setRating(75)"/>
-        <label for="rating-input-1-4" class="rating-star"></label>
+			<h1 class="centered">Music Player 2.1 <span style="font-size: 1px;">infinite</span> BETA!</h1>
 
-        <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1" onclick="javascript:setRating(50)"/>
-        <label for="rating-input-1-3" class="rating-star"></label>
+			<div class="topbuttonwrapper">
+				<a class="controlButton" href='javascript:play()'><p class="centered smallbutton">Play</p></a>
+				<a class="controlButton" href='javascript:pause()'><p class="centered smallbutton">Pause</p></a>
+				<a class="controlButton" href='javascript:next()'><p class="centered smallbutton">Next</p></a>
+			</div>
+			<br/>
+			<div class="ratingwrapper">
+				<span class="rating">
+					<!-- FROM: http://kubyshkin.ru/posts/star-rating-input-pure-css.html -->
+			        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1" onclick="javascript:setRating(100)"/>
+			        <label for="rating-input-1-5" class="rating-star"></label>
 
-        <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1" onclick="javascript:setRating(25)"/>
-        <label for="rating-input-1-2" class="rating-star"></label>
+			        <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1" onclick="javascript:setRating(75)"/>
+			        <label for="rating-input-1-4" class="rating-star"></label>
 
-        <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1" onclick="javascript:setRating(0)"/>
-        <label for="rating-input-1-1" class="rating-star"></label>
-	</span>
-</div>
-<br/>
-<div class="centered" style="margin-bottom:30px; margin-top:30px;">
-<form>
-<input type="text" id="volumeformfield" value="0" maxlength="2" style="width:25px"  autofocus/>
-<input type="button" value="-" onClick="decreaseVolume(0.03)">
-<input type="button" value="+" onClick="increaseVolume(0.03)"><br/><br/>
-<input type="button" value="Set Volume" onClick="setvolume()"/>
-</form></div>
+			        <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1" onclick="javascript:setRating(50)"/>
+			        <label for="rating-input-1-3" class="rating-star"></label>
 
-<a href="request.html"><p class="centered" style="width:80px;">Request</p></a>
+			        <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1" onclick="javascript:setRating(25)"/>
+			        <label for="rating-input-1-2" class="rating-star"></label>
 
-<a href="javascript:addnew()"><p class="centered" style="width:200px;">Search and Add new Files</p></a>
+			        <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1" onclick="javascript:setRating(0)"/>
+			        <label for="rating-input-1-1" class="rating-star"></label>
+				</span>
+			</div>
+			<div class="centered" style="margin-bottom:30px; margin-top:30px;">
+				<form>
+					<input class="volumeButton" type="text" id="volumeformfield" value="0" maxlength="2" tabindex="-1" style="width:35px" />
+					<input class="volumeButton" type="button" value="-" onClick="decreaseVolume(0.03)">
+					<input class="volumeButton" type="button" value="+" onClick="increaseVolume(0.03)"><br/><br/>
+					<input class="volumeButton" type="button" value="Set Volume" onClick="setvolume()"/>
+				</form>
+			</div>
+
+			<table width="100%" class="centered" style="margin-top:50px; margin-bottom:16px;">
+				<tr>
+					<th>Artist<th>
+					<th>Album<th>
+					<th>Title<th>
+					<th>Rating<th>
+					<th>Comments<th>
+					<th></th>
+				</tr>
+				<tr>
+					<td id="artistcell">null<td>
+					<td id="albumcell">null<td>
+					<td id="titlecell">null<td>
+					<td id="ratingcell">null<td>
+					<td id="commentscell">null<td>
+					<td><a href="edit.html" target="_blank">EDIT</a></td>
+				</tr>
+			</table>
+			<hr>
+
+			<br />
+			<table class="centered" width="100%" id="requests"></table>
+			<table class="centered" width="100%" id="playlist"></table>
+			<br />
+
+			<center>
+				<input type="button" class="bottomButton" value="DELETE CURRENT SONG" onClick="deleteCurrentSong()"  />
+				<input type="button" class="bottomButton" value="DELETE ALL SONG" onClick="deleteAllSongs()"  />
+			</center>
+			<br />
+			<center class="themeButtons">
+				<form>
+					<input type="submit" class="bottomButton" onclick="switch_style('light');return false;" name="theme" value="Light Theme" id="light">
+					<input type="submit" class="bottomButton" onclick="switch_style('dark');return false;" name="theme" value="Dark Theme" id="dark">
+					<input type="submit" class="bottomButton" onclick="switch_style('pink');return false;" name="theme" value="Girly Theme" id="pink">
+					<input type="submit" class="bottomButton" onclick="switch_style('pic');return false;" name="theme" value="Picture Theme" id="pic">
+					<input type="button" class="bottomButton" onclick="fancyshit()" value="Surprise me!">
+				</form>
+			</center>
+		</div>
+
+		<!--<audio controls id="audioplayer">
+		  <source src="" type="audio/mpeg">
+		Your browser does not support the audio element.
+		</audio>-->
+	</body>
+
+	<script>
+
+function fancyshit()
+{
+	var randomImageURL = 'url("http://home.melvin-kellner.com/image.png?brol=' + Math.random() + '")';
+	document.body.style.background =  randomImageURL;
+}
 
 
-<table width="100%" class="centered" style="margin-top:50px; margin-bottom:50px;">
-	<tr>
-		<th>Artist<th>
-		<th>Album<th>
-		<th>Title<th>
-		<th>Rating<th>
-		<th>Comments<th>
-		<th></th>
-	</tr>
-	<tr>
-		<td id="artistcell">null<td>
-		<td id="albumcell">null<td>
-		<td id="titlecell">null<td>
-		<td id="ratingcell">null<td>
-		<td id="commentscell">null<td>
-		<td><a href="edit.php" target="_blank">EDIT</a></td>
-	</tr>
-</table>
-<br />
-<table class="centered" width="100%" id="requests">
-</table>
-<br />
-<table class="centered" width="100%" id="playlist">
-</table>
-<br />
-</div>
-<input type="button" value="DELETE CURRENT SONG" onClick="deleteCurrentSong()"  />
-<input type="button" value="DELETE ALL SONG" onClick="deleteAllSongs()"  />
-
-<!--<audio controls id="audioplayer">
-  <source src="" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>-->
-
-<script>
-
-var refreshTimer = 1000;
+var refreshTimer = 500;
 window.setInterval(refresh, refreshTimer);
 
+var currentSongId = -1;
 
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-var porturl = "http://localhost" + ':8080' + "/" + "index.html";
+var isLocalPlaying = false;
+var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
 
-startStream();
+
 function refresh()
 {
 	getCurrentSong();
 	getRequests();
 	getQueList();
 	getvolume();
-	//setAudioPlayer();
-	stream();
+	setAudioPlayer();
 }
 
 function setAudioPlayer()
@@ -253,7 +160,6 @@ function getRequests()
             cache: false,
             success: function(result) 
                 {
-					requests = result;
                         var table = document.getElementById("requests");
                         table.innerHTML = "";
 
@@ -297,7 +203,6 @@ function getQueList()
             cache: false,
             success: function(result) 
                 {
-                playlist = result;
 			var table = document.getElementById("playlist");
 			table.innerHTML = "";
 			for (var i=0;i<result.length;i++)
@@ -337,24 +242,29 @@ function getCurrentSong()
 	    cache: false,
 	    success: function(result) 
 		{
-			currentSong = result;
 			currentSongLocation = result["path"];
-			document.getElementById("artistcell").innerHTML = result["artist"]
+			currentSongId = result["id"];
+			document.getElementById("artistcell").innerHTML = result["artist"];
 			document.getElementById("albumcell").innerHTML = result["album"];
-			document.getElementById("titlecell").innerHTML = result["title"]
+			document.getElementById("titlecell").innerHTML = result["title"];
 			$('#content1').html(result[0]);
+
+			document.getElementById("docTitle").innerHTML = result["artist"] + " - " + result["title"];
 	    },
 		});
 }
 
 function deleteCurrentSong()
 {
-	if (confirm('Are you sure you want to delete this song ?')) {
-    	next();
-	$.ajax({ url: 'functions.php?id=delete'});
-	alert("song deleted");
-	} else {
-   	alert("song not deleted");
+	if (confirm('Are you sure you want to delete this song ?')) 
+	{
+    		next();
+		$.ajax({ url: porturl +"?deletesong=" + currentSongId});
+		alert("song deleted");
+	} 
+	else 
+	{
+   		alert("song not deleted");
 	}
 }
 
@@ -423,6 +333,7 @@ function getvolume()
 
 function addnew()
 {
+	alert("Searching and adding new files!");
 	$.ajax({url: porturl + "?scanForNew=scanForNew"});
 }
 
@@ -432,79 +343,16 @@ function setvolume()
 	$.ajax({ url: porturl +"?setvolume=" + vol});
 }
 
-
-
-
-
-
-
-
-var currentSong;
-var requests;
-var playlist;
-var cachedSong = new Array();
-var streaming = false;
-
-
-	function startStream()
-	{
-		$.ajax({
-		type: 'GET',
-		url: porturl,
-	    data: 'stream=start',
-	    dataType: 'json',
-	    cache: false,
-	    success: function(result)
-		{
-			streaming = true;
-	    },
-		});
-	}
-
-	function stopStream()
-	{
-		$.ajax({url: porturl + "?stream=stop"});
-		streaming = false;
-	}
-
-function stream()
+function setRating(rating)
 {
-	if (streaming)
-	{
-		$.ajax({
-		type: 'GET',
-		url: porturl,
-	    data: 'stream=status',
-	    dataType: 'json',
-	    cache: false,
-	    success: function(result)
+	var user = document.getElementById("passwordTxi").value;
+	$.ajax({
+		url: "functions.php?id=setrating&rating=" + rating + "&user=" + user,
+		success:function(result)
 		{
-
-	    },
-		});
-	}
+			alert("Je stem werd geregistreerd. En je hebt geluk: JIJ bent uitverkoren om de query aan te passen zodat hij rekening houdt met de ratings. Enjoy! " + result);
+		}}); // %note: send song_id as well?
 }
 
-function setCachedSong(id)
-{
-	if (cachedSong[id] == null)
-	{
-		$.ajax({
-		type: 'GET',
-		url: porturl,
-	    data: 'getsongbase64byid='+id,
-	    dataType: 'json',
-	    cache: false,
-	    success: function(result)
-		{
-			cachedSong = result[0];
-	    },
-		});
-	}
-}
-
-
-</script>
-
-
+	</script>
 </html>
