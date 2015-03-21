@@ -124,7 +124,7 @@ var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
 var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-//var porturl = "http:" + '//' + "127.0.0.1" + ':8080' + "/" + "index.html";
+//var porturl = "http:" + '//' + "192.168.0.186" + ':8080' + "/" + "index.html";
 
 
 function refresh()
@@ -143,6 +143,7 @@ function getRequests()
                 url: porturl,
             data: 'getrequests=getrequests',
             dataType: 'json',
+            timeout: 3000,
             cache: false,
             success: function(result) 
                 {
@@ -187,6 +188,7 @@ function getQueList()
                 url: porturl,
             data: 'getplaylist=getplaylist',
             dataType: 'json',
+            timeout: 3000,
             cache: false,
             success: function(result) 
                 {
@@ -227,6 +229,7 @@ function getCurrentSong()
 		url: porturl,
 	    data: 'getcurrentsong=currentsong',
 	    dataType: 'json',
+            timeout: 3000,
 	    cache: false,
 	    success: function(result) 
 		{
@@ -308,6 +311,7 @@ function getvolume()
 		url: porturl,
 	    data: 'getvolume=getvolume',
 	    dataType: 'json',
+            timeout: 3000,
 	    cache: false,
 	    success: function(result) 
 		{
@@ -350,6 +354,7 @@ var cachedSong = new Array();
 var streaming = false;
 var player = getPlayer();
 var playingId = -1;
+var start_time;
 
 function startstream()
 {
@@ -408,7 +413,10 @@ function stream()
 			}
 			if (typeof currentSong !== 'undefined') 
 			{
-				setCachedSong(currentSong["id"]);
+				if (setCachedSong(currentSong["id"]))
+				{
+					return;	
+				}
 			}
 			if (typeof requests !== 'undefined') 
 			{
@@ -416,7 +424,11 @@ function stream()
 				{
 					if (requests[i] != null)
 					{
-						setCachedSong(requests[i]["id"]);
+						if (setCachedSong(requests[i]["id"]))
+						{
+							return;
+						}
+						
 					}
 				}
 			}
@@ -426,7 +438,11 @@ function stream()
 				{
 					if (playlist[i] != null)
 					{
-						setCachedSong(playlist[i]["id"]);
+						if (setCachedSong(playlist[i]["id"]))
+						{
+							return;
+						}
+						
 					}
 				}
 			}
@@ -441,20 +457,23 @@ function playInSync(position)
 	{
 		if (playingId != currentSong["id"])
 		{
+			start_time = new Date().getTime()
 			cachedSong[playingId] == null;
 			playingId = currentSong["id"];	
 			player.src = "data:audio/mp3;base64," + cachedSong[currentSong["id"]];
 			player.autoplay = true;
+			start_time = (new Date().getTime() - start_time) / 1000;
 		}
 		position = Number(position);
-		if (player.currentTime < position - 5 || player.currentTime > position + 5)
+		if (player.currentTime < position - 2 || player.currentTime > position + 2)
 		{
-			player.currentTime = Number(position) + (refreshTimer / 1000) + 0.250;
+			player.currentTime = Number(position) + (refreshTimer / 1000) + 0.25;
 		}
 		if (player.paused)
 		{
-			player.currentTime = Number(position) + (refreshTimer / 1000) + 0.250;
-			player.play();	
+			player.currentTime = Number(position) + (refreshTimer / 1000) + 0.25 + start_time;
+			player.play();
+			start_time = null;	
 		}	
 	}
 }
@@ -483,25 +502,30 @@ function getContainer() {
 
 function setCachedSong(id)
 {
-	if (cachedSong[id] == null || cachedSong[id] == "null")
+	if (cachedSong[id] == null || cachedSong[id] == "null" || cachedSong[id] == "attempting")
 	{
-		cachedSong[id] = "attempting";
-		$.ajax({
-		type: 'GET',
-		url: porturl,
-		data: 'getsongbase64byid='+id,
-		dataType: 'text',
-		cache: false,
-		success: function(result)
+		if (cachedSong[id] != "attempting")
 		{
-			cachedSong[id] = result;
-		},
-		error: function (data) 
-		{
-	        cachedSong[id] = null;
-	    }
-		});
+			cachedSong[id] = "attempting";
+			$.ajax({
+			type: 'GET',
+			url: porturl,
+			data: 'getsongbase64byid='+id,
+			dataType: 'text',
+			cache: false,
+			success: function(result)
+			{
+				cachedSong[id] = result;
+			},
+			error: function (data) 
+			{
+		        cachedSong[id] = null;
+		    }
+			});	
+		}
+		return true;
 	}
+	return false;
 }
 
 
