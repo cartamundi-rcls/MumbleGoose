@@ -23,7 +23,7 @@
 				</tr>
 			</table>
 
-			<h1 class="centered">Music Player 2.1 <span style="font-size: 1px;">infinite</span> BETA!</h1>
+			<h1 class="centered">Music Player 2.2 <span style="font-size: 1px;">infinite</span> BETA! Now with streaming support</h1>
 
 			<div class="topbuttonwrapper">
 				<a class="controlButton" href='javascript:play()'><p class="centered smallbutton">Play</p></a>
@@ -123,8 +123,8 @@ var currentSongId = -1;
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-var porturl = "http:" + '//' + "127.0.0.1" + ':8080' + "/" + "index.html";
+var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+//var porturl = "http:" + '//' + "127.0.0.1" + ':8080' + "/" + "index.html";
 
 
 function refresh()
