@@ -4,6 +4,7 @@ import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Track;
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.io.FileUtils;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
@@ -508,6 +509,7 @@ public class Controller
       if (value.equals("start"))
       {
         StreamManager.instance.addStreamer(query.get(Controller.ipadress));
+        return Boolean.toString(StreamManager.instance.isStreaming);
       }
       else if (value.equals("stop"))
       {
@@ -515,7 +517,7 @@ public class Controller
       }
       else if (value.equals("status"))
       {
-        StreamManager.instance.getAudioStatus(query.get(Controller.ipadress));
+        return StreamManager.instance.getAudioStatus(query.get(Controller.ipadress));
       }
       return command;
     }

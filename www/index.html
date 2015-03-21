@@ -18,7 +18,7 @@
 					<td align="center"><a href="request.html">Request</a></td>
 					<td align="center"><a href="upload.html" target="_blank">Upload</a></td>
 					<td align="center"><a href="javascript:addnew()">Search and Add new Files</a></td>
-					<td align="center"><a href="http://music.playlane.be:8000/mystream.mp3.m3u">Stream</a></td>
+					<td align="center"><a id="streamButton" href="javascript:startstream()">Stream</a></td>
 					<td align="center"><a href="soundbytes.html">SoundBytes</a></td>
 				</tr>
 			</table>
@@ -123,8 +123,8 @@ var currentSongId = -1;
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-var isLocalPlaying = false;
-var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+var porturl = "http:" + '//' + "127.0.0.1" + ':8080' + "/" + "index.html";
 
 
 function refresh()
@@ -133,21 +133,7 @@ function refresh()
 	getRequests();
 	getQueList();
 	getvolume();
-	setAudioPlayer();
-}
-
-function setAudioPlayer()
-{
-	//if (currentSongLocation != prevSongLoc)
-	//(
-		//audioplayer.src= currentSongLocation;
-		//prevSongLoc = currentSongLocation;
-		//if (isLocalPlaying === true)
-		//(
-			//audioplayer.load(); //call this to just preload the audio without playing
-        		//audio.play(); //call this to play the song right away
-		//)
-	//)
+	stream();
 }
 
 function getRequests()
@@ -160,6 +146,7 @@ function getRequests()
             cache: false,
             success: function(result) 
                 {
+                	requests = result;
                         var table = document.getElementById("requests");
                         table.innerHTML = "";
 
@@ -203,6 +190,7 @@ function getQueList()
             cache: false,
             success: function(result) 
                 {
+                	playlist = result;
 			var table = document.getElementById("playlist");
 			table.innerHTML = "";
 			for (var i=0;i<result.length;i++)
@@ -242,6 +230,7 @@ function getCurrentSong()
 	    cache: false,
 	    success: function(result) 
 		{
+			currentSong = result;
 			currentSongLocation = result["path"];
 			currentSongId = result["id"];
 			document.getElementById("artistcell").innerHTML = result["artist"];
@@ -353,6 +342,170 @@ function setRating(rating)
 			alert("Je stem werd geregistreerd. En je hebt geluk: JIJ bent uitverkoren om de query aan te passen zodat hij rekening houdt met de ratings. Enjoy! " + result);
 		}}); // %note: send song_id as well?
 }
+
+var currentSong;
+var requests;
+var playlist;
+var cachedSong = new Array();
+var streaming = false;
+var player = getPlayer();
+var playingId = -1;
+
+function startstream()
+{
+	if (streaming)
+	{
+		stopstream();
+	}
+	else
+	{
+		$.ajax({
+		type: 'GET',
+		url: porturl,
+		data: 'stream=start',
+		dataType: 'json',
+		cache: false,
+		success: function(result)
+		{
+			streaming = result;
+			document.getElementById("streamButton").innerHTML = "STOP STREAM";
+		},
+		});
+	}
+	
+}
+
+function stopstream()
+{
+	$.ajax({url: porturl + "?stream=stop"});
+	streaming = false;
+	player.pause;
+	player.src = "";
+	cachedSong = new Array();
+	playingId = -1;
+	document.getElementById("streamButton").innerHTML = "Stream";
+}
+
+function stream()
+{
+	if (streaming)
+	{
+		$.ajax({
+		type: 'GET',
+		url: porturl,
+		data: 'stream=status',
+		dataType: 'json',
+		cache: false,
+		success: function(result)
+		{
+			if (result["isPlaying"] === "true")
+			{
+				playInSync(result["currentPlayTime"])
+			}
+			else if (!player.paused)
+			{
+				player.pause();
+			}
+			if (typeof currentSong !== 'undefined') 
+			{
+				setCachedSong(currentSong["id"]);
+			}
+			if (typeof requests !== 'undefined') 
+			{
+				for (i=0;i<requests.length;i++)
+				{
+					if (requests[i] != null)
+					{
+						setCachedSong(requests[i]["id"]);
+					}
+				}
+			}
+			if (typeof playlist !== 'undefined') 
+			{
+				for (i=0;i<playlist.length;i++)
+				{
+					if (playlist[i] != null)
+					{
+						setCachedSong(playlist[i]["id"]);
+					}
+				}
+			}
+		},
+		});
+	}
+}
+
+function playInSync(position)
+{
+	if (cachedSong[currentSong["id"]] != null && cachedSong[currentSong["id"]] != "null" && cachedSong[currentSong["id"]] != "attempting")
+	{
+		if (playingId != currentSong["id"])
+		{
+			cachedSong[playingId] == null;
+			playingId = currentSong["id"];	
+			player.src = "data:audio/mp3;base64," + cachedSong[currentSong["id"]];
+			player.autoplay = true;
+		}
+		position = Number(position);
+		if (player.currentTime < position - 5 || player.currentTime > position + 5)
+		{
+			player.currentTime = Number(position) + (refreshTimer / 1000) + 0.250;
+		}
+		if (player.paused)
+		{
+			player.currentTime = Number(position) + (refreshTimer / 1000) + 0.250;
+			player.play();	
+		}	
+	}
+}
+
+
+function getPlayer() 
+{
+	var container = getContainer(), player
+	, players = container.getElementsByTagName("audio");
+	player = document.createElement("audio");
+	container.appendChild(player);
+	return player;
+}
+
+function getContainer() {
+	var container = document.getElementById("musicplayer");
+	if (container === null) 
+	{
+		container = document.createElement("div");
+		container.id = "musicplayer";
+		document.getElementsByTagName('body')[0].appendChild(container);
+	}
+	return container;
+}
+
+
+function setCachedSong(id)
+{
+	if (cachedSong[id] == null || cachedSong[id] == "null")
+	{
+		cachedSong[id] = "attempting";
+		$.ajax({
+		type: 'GET',
+		url: porturl,
+		data: 'getsongbase64byid='+id,
+		dataType: 'text',
+		cache: false,
+		success: function(result)
+		{
+			cachedSong[id] = result;
+		},
+		error: function (data) 
+		{
+	        cachedSong[id] = null;
+	    }
+		});
+	}
+}
+
+
+
 
 	</script>
 </html>

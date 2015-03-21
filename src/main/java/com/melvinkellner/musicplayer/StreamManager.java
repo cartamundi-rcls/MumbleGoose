@@ -5,7 +5,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.h2.engine.Database;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +26,8 @@ public class StreamManager
 
     public void cacheSong(final Song song)
     {
+        if (song == null)
+        {return ;}
         if (isStreaming && !streamMap.containsKey(song.getHash()))
         {
             streamMap.put(song.getId(), null);
@@ -62,9 +63,12 @@ public class StreamManager
 
     public void removeCachedSong(Song song)
     {
-        if (streamMap.containsKey(song.getId()))
+        if (song != null)
         {
-            streamMap.remove(song.getId());
+            if (streamMap.containsKey(song.getId()))
+            {
+                streamMap.remove(song.getId());
+            }
         }
     }
 

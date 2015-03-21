@@ -268,6 +268,7 @@ public class DatabaseManager
         song.setActive(true);
         song.setHash(hash);
         writeSong(song);
+        return true;
       }
     }
     catch (Exception e)
