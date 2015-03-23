@@ -412,6 +412,7 @@ public class Controller
   {
     if (command.equals(COMMANDS[22]))
     {
+      Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
       HashMap<String, String> resultMap = new HashMap<String, String>();
       resultMap.put("currentsong", AudioController.instance.currentSongJSON);
       resultMap.put("playlist", getCurrentPlaylist());
@@ -420,7 +421,12 @@ public class Controller
       HashMap<String, Double> map = new HashMap<String, Double>();
       map.put("current", AudioController.instance.currentPlayTime());
       map.put("total", AudioController.instance.getLength());
-      resultMap.put("duration", new Gson().toJson(map));
+      try
+      {
+        resultMap.put("duration", new Gson().toJson(map));
+      }
+      catch (IllegalArgumentException ex)
+      {ex.printStackTrace();}
       return new Gson().toJson(resultMap);
     }
     else if (command.equals(COMMANDS[0]))
@@ -449,6 +455,7 @@ public class Controller
     }
     else if (command.equals(COMMANDS[6]))
     {
+      Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
       return findSongsByString(value);
     }
     else if (command.equals(COMMANDS[7]))
@@ -535,6 +542,7 @@ public class Controller
     }
     else if (command.equals(COMMANDS[21]))
     {
+        Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
         return StreamManager.instance.getSongBase64ById(Integer.parseInt(value));
     }
     /*else if (command.equals(COMMANDS[22]))

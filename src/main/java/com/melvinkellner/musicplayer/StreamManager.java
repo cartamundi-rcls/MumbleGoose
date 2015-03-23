@@ -18,10 +18,9 @@ import java.util.Map;
 public class StreamManager
 {
     public static StreamManager instance = new StreamManager();
-    public boolean isStreaming = true;
+    public boolean isStreaming = false;
     private HashMap<Integer, String> streamMap = new HashMap<Integer, String>();
     private HashMap<String, Long> activeStreamers = new HashMap<String, Long>();
-    private CheckConnectionThread connectionThread = new CheckConnectionThread();
     private final static int RECHECK_TIME = 30000;
 
     public void cacheSong(final Song song)
@@ -79,8 +78,6 @@ public class StreamManager
         {
             isStreaming = true;
             cacheSongs();
-            connectionThread = new CheckConnectionThread();
-            connectionThread.start();
         }
     }
 
@@ -91,8 +88,6 @@ public class StreamManager
         {
             isStreaming = false;
             activeStreamers.clear();
-            connectionThread.interrupt();
-            connectionThread = null;
         }
     }
 
@@ -117,36 +112,4 @@ public class StreamManager
         }
         return "";
     }
-
-    public class CheckConnectionThread extends Thread
-    {
-        @Override
-        public void run()
-        {
-            super.run();
-            while (isStreaming)
-            {
-                Iterator itr = streamMap.entrySet().iterator();
-                while (itr.hasNext())
-                {
-                    Map.Entry<String, Long> pair = (Map.Entry<String, Long>) itr.next();
-                    if (System.currentTimeMillis() < pair.getValue() + RECHECK_TIME);
-                    {
-                        StreamManager.instance.removeStreamer(pair.getKey());
-                    }
-                }
-                try
-                {
-                    Thread.currentThread().sleep(RECHECK_TIME);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            this.interrupt();
-        }
-    }
-
-
 }

@@ -99,7 +99,7 @@ public class AudioController
     }
     try
     {
-StreamManager.instance.removeCachedSong(currentSong);
+      StreamManager.instance.removeCachedSong(currentSong);
       song.getMaxVolume();
       System.gc();
       currentSong = song;
@@ -267,6 +267,10 @@ StreamManager.instance.removeCachedSong(currentSong);
     {
       currentPlayer.play();
       isCurrentlyPlaying = true;
+    }
+    else
+    {
+      next();
     }
   }
 

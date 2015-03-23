@@ -170,6 +170,17 @@ function setCurrentSong(result)
 		$('#content1').html(result[0]);
 		document.getElementById("docTitle").innerHTML = result["artist"] + " - " + result["title"];
 	}
+	else
+	{
+		currentSong = null;
+		currentSongLocation = null;
+		currentSongId = null;
+		document.getElementById("artistcell").innerHTML = null;
+		document.getElementById("albumcell").innerHTML = null;
+		document.getElementById("titlecell").innerHTML = null;
+		$('#content1').html(null);
+		document.getElementById("docTitle").innerHTML = null + " - " + null;
+	}
 }
 
 function setPlayList(result)
