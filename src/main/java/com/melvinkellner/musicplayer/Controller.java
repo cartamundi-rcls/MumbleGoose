@@ -410,10 +410,18 @@ public class Controller
 
   public String sendCommand(String command, String value, Query query)
   {
-    //System.out.println(command + " " + value + " " + query.get(Controller.ipadress));
     if (command.equals(COMMANDS[22]))
     {
-
+      HashMap<String, String> resultMap = new HashMap<String, String>();
+      resultMap.put("currentsong", AudioController.instance.currentSongJSON);
+      resultMap.put("playlist", getCurrentPlaylist());
+      resultMap.put("requests", getCurrentRequests());
+      resultMap.put("volume", Double.toString(AudioController.instance.currentVolume));
+      HashMap<String, Double> map = new HashMap<String, Double>();
+      map.put("current", AudioController.instance.currentPlayTime());
+      map.put("total", AudioController.instance.getLength());
+      resultMap.put("duration", new Gson().toJson(map));
+      return new Gson().toJson(resultMap);
     }
     else if (command.equals(COMMANDS[0]))
     {

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="86ba52b4-e816-45be-9887-d663836c8396" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java" afterPath="$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MumbleGoose.iws" afterPath="$PROJECT_DIR$/MumbleGoose.iws" />
     </list>
     <ignored path="MumbleGoose.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,10 +83,12 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.422201" vertical-offset="5910" max-vertical-offset="7830">
-              <caret line="31" column="99" selection-start-line="31" selection-start-column="88" selection-end-line="31" selection-end-column="99" />
+            <state vertical-scroll-proportion="0.44497153" vertical-offset="5516" max-vertical-offset="7950">
+              <caret line="423" column="42" selection-start-line="423" selection-start-column="42" selection-end-line="423" selection-end-column="42" />
               <folding>
-                <element signature="e#14668#14684#0" expanded="true" />
+                <element signature="e#12219#12235#0" expanded="true" />
+                <element signature="e#12562#12578#0" expanded="true" />
+                <element signature="e#15227#15243#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -778,7 +779,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="42" y="23" width="1878" height="1177" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -796,7 +797,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2539936" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2539936" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23607038" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -916,7 +917,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="5640">
           <caret line="26" column="165" selection-start-line="26" selection-start-column="150" selection-end-line="26" selection-end-column="165" />
           <folding>
-            <element signature="e#14668#14684#0" expanded="true" />
+            <element signature="e#12219#12235#0" expanded="true" />
+            <element signature="e#12562#12578#0" expanded="true" />
+            <element signature="e#15227#15243#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -959,7 +962,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="5640">
           <caret line="26" column="165" selection-start-line="26" selection-start-column="150" selection-end-line="26" selection-end-column="165" />
           <folding>
-            <element signature="e#14668#14684#0" expanded="true" />
+            <element signature="e#12219#12235#0" expanded="true" />
+            <element signature="e#12562#12578#0" expanded="true" />
+            <element signature="e#15227#15243#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1002,7 +1007,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="5610">
           <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
           <folding>
-            <element signature="e#14668#14684#0" expanded="true" />
+            <element signature="e#12219#12235#0" expanded="true" />
+            <element signature="e#12562#12578#0" expanded="true" />
+            <element signature="e#15227#15243#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1041,7 +1048,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="5610">
           <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
           <folding>
-            <element signature="e#14668#14684#0" expanded="true" />
+            <element signature="e#12219#12235#0" expanded="true" />
+            <element signature="e#12562#12578#0" expanded="true" />
+            <element signature="e#15227#15243#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1080,7 +1089,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="5610">
           <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
           <folding>
-            <element signature="e#14668#14684#0" expanded="true" />
+            <element signature="e#12219#12235#0" expanded="true" />
+            <element signature="e#12562#12578#0" expanded="true" />
+            <element signature="e#15227#15243#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1274,10 +1285,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/melvinkellner/musicplayer/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.422201" vertical-offset="5910" max-vertical-offset="7830">
-          <caret line="31" column="99" selection-start-line="31" selection-start-column="88" selection-end-line="31" selection-end-column="99" />
+        <state vertical-scroll-proportion="0.44497153" vertical-offset="5516" max-vertical-offset="7950">
+          <caret line="423" column="42" selection-start-line="423" selection-start-column="42" selection-end-line="423" selection-end-column="42" />
           <folding>
-            <element signature="e#14668#14684#0" expanded="true" />
+            <element signature="e#12219#12235#0" expanded="true" />
+            <element signature="e#12562#12578#0" expanded="true" />
+            <element signature="e#15227#15243#0" expanded="true" />
           </folding>
         </state>
       </provider>
