@@ -123,18 +123,131 @@ var currentSongId = -1;
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-//var porturl = "http:" + '//' + "192.168.0.186" + ':8080' + "/" + "index.html";
+//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
 
 
 function refresh()
 {
-	getCurrentSong();
+	getPlayerStatus();
+	/*getCurrentSong();
 	getRequests();
 	getQueList();
 	getvolume();
-	stream();
+	stream();*/
 }
+
+function getPlayerStatus()
+{
+	$.ajax({
+	type: 'GET',
+	url: porturl,
+	data: 'playerstatus=playerstatus',
+	dataType: 'json',
+	timeout: 3000,
+	cache: false,
+	success: function(result) 
+	{
+        setCurrentSong(result["currentsong"]);
+       	setPlayList(result["playlist"]);
+       	setRequests(result["requests"]);
+       	setVolume(result["volume"]);
+       	setduration(result["duration"]);
+	},
+	});
+}
+
+function setCurrentSong(result)
+{
+	currentSong = result;
+	currentSongLocation = result["path"];
+	currentSongId = result["id"];
+	document.getElementById("artistcell").innerHTML = result["artist"];
+	document.getElementById("albumcell").innerHTML = result["album"];
+	document.getElementById("titlecell").innerHTML = result["title"];
+	$('#content1').html(result[0]);
+
+	document.getElementById("docTitle").innerHTML = result["artist"] + " - " + result["title"];
+}
+
+function setPlayList(result)
+{
+	playlist = result;
+	var table = document.getElementById("playlist");
+	table.innerHTML = "";
+	for (var i=0;i<result.length;i++)
+	{
+                	 // Insert a row in the table at the last row
+		var newRow   = table.insertRow(i);
+
+		// Insert a cell in the row at index 0
+		var placeCell  = newRow.insertCell(0);
+		var artistCell  = newRow.insertCell(1);
+		var albumCell  = newRow.insertCell(2);
+		var titleCell  = newRow.insertCell(3);
+
+		// Append a text node to the cell
+		var place = document.createTextNode(i + 1);
+		placeCell.appendChild(place);
+		var artist = document.createTextNode(result[i]["artist"])
+		artistCell.appendChild(artist); 
+
+		var album = document.createTextNode(result[i]["album"])
+		albumCell.appendChild(album); 
+
+		var song = document.createTextNode(result[i]["title"])
+		titleCell.appendChild(song);  
+	}
+}
+
+function setRequests(result)
+{
+	requests = result;
+    var table = document.getElementById("requests");
+    table.innerHTML = "";
+
+    if(result == 0) return;
+
+
+    for (var i=0;i<result.length;i++)
+    {
+             // Insert a row in the table at the last row
+            var newRow   = table.insertRow(i);
+
+            // Insert a cell in the row at index 0
+            var placeCell  = newRow.insertCell(0);
+            var artistCell  = newRow.insertCell(1);
+            var albumCell  = newRow.insertCell(2);
+            var titleCell  = newRow.insertCell(3);
+
+            // Append a text node to the cell
+            var place = document.createTextNode("REQUEST"); // + (i + 1)
+            placeCell.appendChild(place);
+            var artist = document.createTextNode(result[i]["artist"])
+            artistCell.appendChild(artist); 
+
+            var album = document.createTextNode(result[i]["album"])
+            albumCell.appendChild(album); 
+
+            var song = document.createTextNode(result[i]["title"])
+            titleCell.appendChild(song);  
+    }
+}
+
+function setVolume(result)
+{
+	if (document.getElementById("volumeformfield") != document.activeElement)
+	{
+		document.getElementById("volumeformfield").value = result["volume"] * 100;
+	}
+	$('#content1').html(result[0]);
+}
+
+function setduration(result)
+{
+
+}
+
 
 function getRequests()
 {
@@ -147,36 +260,7 @@ function getRequests()
             cache: false,
             success: function(result) 
                 {
-                	requests = result;
-                        var table = document.getElementById("requests");
-                        table.innerHTML = "";
-
-                        if(result == 0) return;
-
-
-                        for (var i=0;i<result.length;i++)
-                        {
-                                 // Insert a row in the table at the last row
-                                var newRow   = table.insertRow(i);
-
-                                // Insert a cell in the row at index 0
-                                var placeCell  = newRow.insertCell(0);
-                                var artistCell  = newRow.insertCell(1);
-                                var albumCell  = newRow.insertCell(2);
-                                var titleCell  = newRow.insertCell(3);
-
-                                // Append a text node to the cell
-                                var place = document.createTextNode("REQUEST"); // + (i + 1)
-                                placeCell.appendChild(place);
-                                var artist = document.createTextNode(result[i]["artist"])
-                                artistCell.appendChild(artist); 
-
-                                var album = document.createTextNode(result[i]["album"])
-                                albumCell.appendChild(album); 
-
-                                var song = document.createTextNode(result[i]["title"])
-                                titleCell.appendChild(song);  
-                        }
+                	setRequests(result);
             },
           });
 }
@@ -192,32 +276,7 @@ function getQueList()
             cache: false,
             success: function(result) 
                 {
-                	playlist = result;
-			var table = document.getElementById("playlist");
-			table.innerHTML = "";
-			for (var i=0;i<result.length;i++)
-			{
-                        	 // Insert a row in the table at the last row
-				var newRow   = table.insertRow(i);
-
-				// Insert a cell in the row at index 0
-				var placeCell  = newRow.insertCell(0);
-				var artistCell  = newRow.insertCell(1);
-				var albumCell  = newRow.insertCell(2);
-				var titleCell  = newRow.insertCell(3);
-
-				// Append a text node to the cell
-				var place = document.createTextNode(i + 1);
-				placeCell.appendChild(place);
-				var artist = document.createTextNode(result[i]["artist"])
-				artistCell.appendChild(artist); 
-
-				var album = document.createTextNode(result[i]["album"])
-				albumCell.appendChild(album); 
-
-				var song = document.createTextNode(result[i]["title"])
-				titleCell.appendChild(song);  
-			}
+                	setPlayList(result);
             },
           });
 }
@@ -233,15 +292,7 @@ function getCurrentSong()
 	    cache: false,
 	    success: function(result) 
 		{
-			currentSong = result;
-			currentSongLocation = result["path"];
-			currentSongId = result["id"];
-			document.getElementById("artistcell").innerHTML = result["artist"];
-			document.getElementById("albumcell").innerHTML = result["album"];
-			document.getElementById("titlecell").innerHTML = result["title"];
-			$('#content1').html(result[0]);
-
-			document.getElementById("docTitle").innerHTML = result["artist"] + " - " + result["title"];
+			setCurrentSong(result);
 	    },
 		});
 }
@@ -257,21 +308,6 @@ function deleteCurrentSong()
 	else 
 	{
    		alert("song not deleted");
-	}
-}
-
-function deleteAllSongs()
-{
-	if (confirm('Are you sure you want to delete ALL songs? U know, like in pressing spacebar.'))
-	{
-		pause();
-		$("body").html("");
-
-		//alert("We ain't so stupid to format a device with a single press on spacebar. Or are we?!?");
-	} 
-	else 
-	{
-   		alert("Smart move! Spacebar is evil!");
 	}
 }
 
@@ -315,11 +351,7 @@ function getvolume()
 	    cache: false,
 	    success: function(result) 
 		{
-			if (document.getElementById("volumeformfield") != document.activeElement)
-			{
-				document.getElementById("volumeformfield").value = result["volume"] * 100;
-			}
-			$('#content1').html(result[0]);
+			setVolume(result);
 	    },
 		});
 }
@@ -338,13 +370,7 @@ function setvolume()
 
 function setRating(rating)
 {
-	var user = document.getElementById("passwordTxi").value;
-	$.ajax({
-		url: "functions.php?id=setrating&rating=" + rating + "&user=" + user,
-		success:function(result)
-		{
-			alert("Je stem werd geregistreerd. En je hebt geluk: JIJ bent uitverkoren om de query aan te passen zodat hij rekening houdt met de ratings. Enjoy! " + result);
-		}}); // %note: send song_id as well?
+	alert("werkt nie");
 }
 
 var currentSong;
