@@ -1,5 +1,6 @@
 package com.melvinkellner.musicplayer;
 
+import com.echonest.api.v4.Audio;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Track;
@@ -93,12 +94,12 @@ public class AudioController
   {
     if (currentSong == null)
     {
-      StreamManager.instance.removeCachedSong(currentSong);
       currentSong = DatabaseManager.instance.getNextSong();
       currentSongJSON = new Gson().toJson(AudioController.instance.currentSong);
     }
     try
     {
+StreamManager.instance.removeCachedSong(currentSong);
       song.getMaxVolume();
       System.gc();
       currentSong = song;

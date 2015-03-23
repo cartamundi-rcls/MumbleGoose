@@ -18,7 +18,7 @@ import java.util.Map;
 public class StreamManager
 {
     public static StreamManager instance = new StreamManager();
-    public boolean isStreaming = false;
+    public boolean isStreaming = true;
     private HashMap<Integer, String> streamMap = new HashMap<Integer, String>();
     private HashMap<String, Long> activeStreamers = new HashMap<String, Long>();
     private CheckConnectionThread connectionThread = new CheckConnectionThread();

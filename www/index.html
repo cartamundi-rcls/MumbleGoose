@@ -123,8 +123,8 @@ var currentSongId = -1;
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
+var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+//var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
 
 
 function refresh()
@@ -133,8 +133,8 @@ function refresh()
 	/*getCurrentSong();
 	getRequests();
 	getQueList();
-	getvolume();
-	stream();*/
+	getvolume();*/
+	stream();
 }
 
 function getPlayerStatus()
@@ -148,26 +148,28 @@ function getPlayerStatus()
 	cache: false,
 	success: function(result) 
 	{
-        setCurrentSong(result["currentsong"]);
-       	setPlayList(result["playlist"]);
-       	setRequests(result["requests"]);
-       	setVolume(result["volume"]);
-       	setduration(result["duration"]);
+        setCurrentSong($.parseJSON('[' + result["currentsong"] + ']')[0]);
+       	setPlayList($.parseJSON('[' + result["playlist"] + ']')[0]);
+       	setRequests($.parseJSON('[' + result["requests"] + ']')[0]);
+       	setVolume($.parseJSON('[' + result["volume"] + ']')[0]);
+       	setduration($.parseJSON('[' + result["duration"] + ']')[0]);
 	},
 	});
 }
 
 function setCurrentSong(result)
 {
-	currentSong = result;
-	currentSongLocation = result["path"];
-	currentSongId = result["id"];
-	document.getElementById("artistcell").innerHTML = result["artist"];
-	document.getElementById("albumcell").innerHTML = result["album"];
-	document.getElementById("titlecell").innerHTML = result["title"];
-	$('#content1').html(result[0]);
-
-	document.getElementById("docTitle").innerHTML = result["artist"] + " - " + result["title"];
+	if (result != undefined)
+	{
+		currentSong = result;
+		currentSongLocation = result["path"];
+		currentSongId = result["id"];
+		document.getElementById("artistcell").innerHTML = result["artist"];
+		document.getElementById("albumcell").innerHTML = result["album"];
+		document.getElementById("titlecell").innerHTML = result["title"];
+		$('#content1').html(result[0]);
+		document.getElementById("docTitle").innerHTML = result["artist"] + " - " + result["title"];
+	}
 }
 
 function setPlayList(result)
@@ -189,14 +191,29 @@ function setPlayList(result)
 		// Append a text node to the cell
 		var place = document.createTextNode(i + 1);
 		placeCell.appendChild(place);
-		var artist = document.createTextNode(result[i]["artist"])
-		artistCell.appendChild(artist); 
+		try 
+		{
+			var artist = document.createTextNode(result[i]["artist"])
+			artistCell.appendChild(artist); 
+		}
+		catch (err)
+		{}
 
-		var album = document.createTextNode(result[i]["album"])
-		albumCell.appendChild(album); 
+		try
+		{
+			var album = document.createTextNode(result[i]["album"])
+			albumCell.appendChild(album); 
+		}
+		catch (err)
+		{}
 
-		var song = document.createTextNode(result[i]["title"])
-		titleCell.appendChild(song);  
+		try
+		{
+			var song = document.createTextNode(result[i]["title"])
+			titleCell.appendChild(song);
+		}
+		catch (err)
+		{}  
 	}
 }
 
@@ -221,16 +238,37 @@ function setRequests(result)
             var titleCell  = newRow.insertCell(3);
 
             // Append a text node to the cell
-            var place = document.createTextNode("REQUEST"); // + (i + 1)
-            placeCell.appendChild(place);
-            var artist = document.createTextNode(result[i]["artist"])
-            artistCell.appendChild(artist); 
+            try
+			{
+            	var place = document.createTextNode("REQUEST"); // + (i + 1)
+            	placeCell.appendChild(place);
+        	}
+        	catch (err)
+        	{}
+        	
+        	try
+			{
+            	var artist = document.createTextNode(result[i]["artist"])
+            	artistCell.appendChild(artist); 
+            }
+        	catch (err)
+        	{}
 
-            var album = document.createTextNode(result[i]["album"])
-            albumCell.appendChild(album); 
+            try
+			{
+            	var album = document.createTextNode(result[i]["album"])
+            	albumCell.appendChild(album); 
+            }
+        	catch (err)
+        	{}
 
-            var song = document.createTextNode(result[i]["title"])
-            titleCell.appendChild(song);  
+            try
+			{
+            	var song = document.createTextNode(result[i]["title"])
+            	titleCell.appendChild(song); 
+            }
+        	catch (err)
+        	{} 
     }
 }
 
@@ -238,9 +276,9 @@ function setVolume(result)
 {
 	if (document.getElementById("volumeformfield") != document.activeElement)
 	{
-		document.getElementById("volumeformfield").value = result["volume"] * 100;
+		document.getElementById("volumeformfield").value = result * 100;
 	}
-	$('#content1').html(result[0]);
+	$('#content1').html(result);
 }
 
 function setduration(result)
