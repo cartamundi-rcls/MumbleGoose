@@ -33,7 +33,7 @@ public class Controller
           "findsongbystring", "scanForNew", "shuffleplaylist",
       "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong",
           "findmissingtags", "getspecials", "playspecial", "uploadfile",
-          "getduration", "stream", "getsongbase64byid"};
+          "getduration", "stream", "getsongbase64byid", "playerstatus"};
   public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
@@ -410,8 +410,12 @@ public class Controller
 
   public String sendCommand(String command, String value, Query query)
   {
-    System.out.println(command + " " + value + " " + query.get(Controller.ipadress));
-    if (command.equals(COMMANDS[0]))
+    //System.out.println(command + " " + value + " " + query.get(Controller.ipadress));
+    if (command.equals(COMMANDS[22]))
+    {
+
+    }
+    else if (command.equals(COMMANDS[0]))
     {
       AudioController.instance.resume();
     }
@@ -525,6 +529,10 @@ public class Controller
     {
         return StreamManager.instance.getSongBase64ById(Integer.parseInt(value));
     }
+    /*else if (command.equals(COMMANDS[22]))
+    {
+      handeled in beginning of method
+    }*/
     return command;
   }
 
