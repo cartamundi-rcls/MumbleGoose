@@ -22,23 +22,29 @@ import java.util.*;
 
 public class Controller
 {
+  public static Controller instance = null;
+
   public static String VERSION_NUMBER = "0.0.1";
   public static String newMusicDir = "newMusic";
   public static String savedMusicDir = "Music";
   public static String DB_DIR = "DB";
   public static String SOUNDBYTE_DIR = "soundbytes";
   public static String WWW_DIR = "www";
+  public static boolean ALLOW_STREAM = true;
+  public static boolean ALLOW_VETO = false;
+  public static int VETO_TIME_MS = 10000;
   public static int MAX_VISIBLE_PLAYLIST = 15;
-  public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests",
-          "findsongbystring", "scanForNew", "shuffleplaylist",
-      "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong",
-          "findmissingtags", "getspecials", "playspecial", "uploadfile",
-          "getduration", "stream", "getsongbase64byid", "playerstatus"};
-  public static Controller instance = null;
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
   public static int SERVER_PORT = 8080;
+
+
   public static String ipadress = "IP_ADDRES";
+  public static final String[] COMMANDS = new String[]{"play","pause","next","request","getplaylist","getrequests",
+          "findsongbystring", "scanForNew", "shuffleplaylist",
+          "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong",
+          "findmissingtags", "getspecials", "playspecial", "uploadfile",
+          "getduration", "stream", "getsongbase64byid", "playerstatus", "veto"};
 
   public static byte[] createChecksum(String filename) throws Exception {
     InputStream fis =  new FileInputStream(filename);
@@ -99,6 +105,13 @@ public class Controller
           {Controller.SERVER_PORT = Integer.parseInt(lines.get(i).replace("SERVER_PORT=",""));}
           else if (lines.get(i).startsWith("SOUNDBYTE_DIR="))
           {Controller.SOUNDBYTE_DIR = lines.get(i).replace("SOUNDBYTE_DIR=","");}
+          else if (lines.get(i).startsWith("ALLOW_STREAM="))
+          {Controller.ALLOW_STREAM = Boolean.parseBoolean(lines.get(i).replace("ALLOW_STREAM=",""));}
+          else if (lines.get(i).startsWith("ALLOW_VETO="))
+          {Controller.ALLOW_VETO = Boolean.parseBoolean(lines.get(i).replace("ALLOW_VETO=",""));}
+          else if (lines.get(i).startsWith("VETO_TIME_MS="))
+          {Controller.VETO_TIME_MS = Integer.parseInt(lines.get(i).replace("VETO_TIME_MS=", ""));}
+
         }
       }
       catch (IOException e)
@@ -427,6 +440,10 @@ public class Controller
       }
       catch (IllegalArgumentException ex)
       {ex.printStackTrace();}
+      if (ALLOW_VETO)
+      {
+        resultMap.put("isnexted", Boolean.valueOf(AudioController.instance.nextQueued).toString());
+      }
       return new Gson().toJson(resultMap);
     }
     else if (command.equals(COMMANDS[0]))
@@ -439,7 +456,14 @@ public class Controller
     }
     else if (command.equals(COMMANDS[2]))
     {
-      AudioController.instance.next();
+      if (!ALLOW_VETO)
+      {
+        AudioController.instance.next();
+      }
+      else
+      {
+        AudioController.instance.queNext();
+      }
     }
     else if (command.equals(COMMANDS[3]))
     {
@@ -525,18 +549,23 @@ public class Controller
     }
     else if (command.equals(COMMANDS[20]))
     {
-      if (value.equals("start"))
+      if (ALLOW_STREAM)
       {
-        StreamManager.instance.addStreamer(query.get(Controller.ipadress));
-        return Boolean.toString(StreamManager.instance.isStreaming);
+        if (value.equals("start"))
+        {
+          StreamManager.instance.addStreamer(query.get(Controller.ipadress));
+          return Boolean.toString(StreamManager.instance.isStreaming);
+        } else if (value.equals("stop"))
+        {
+          StreamManager.instance.removeStreamer(query.get(Controller.ipadress));
+        } else if (value.equals("status"))
+        {
+          return StreamManager.instance.getAudioStatus(query.get(Controller.ipadress));
+        }
       }
-      else if (value.equals("stop"))
+      else
       {
-        StreamManager.instance.removeStreamer(query.get(Controller.ipadress));
-      }
-      else if (value.equals("status"))
-      {
-        return StreamManager.instance.getAudioStatus(query.get(Controller.ipadress));
+        return "streaming not allowed by server";
       }
       return command;
     }
@@ -549,6 +578,10 @@ public class Controller
     {
       handeled in beginning of method
     }*/
+    else if (command.equals(COMMANDS[23]))
+    {
+      AudioController.instance.veto();
+    }
     return command;
   }
 

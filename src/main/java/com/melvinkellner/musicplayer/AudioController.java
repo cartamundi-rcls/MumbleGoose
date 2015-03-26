@@ -25,6 +25,8 @@ public class AudioController
   public double currentVolume = Controller.DEFAULT_VOLUME;
   public String currentSongJSON = "";
 
+  public boolean nextQueued = false;
+  private Thread nextQueThread = null;
 
   public AudioController()
   {
@@ -99,6 +101,12 @@ public class AudioController
     }
     try
     {
+      nextQueued = false;
+      if (nextQueThread != null)
+      {
+        nextQueThread.interrupt();
+        nextQueThread = null;
+      }
       StreamManager.instance.removeCachedSong(currentSong);
       song.getMaxVolume();
       System.gc();
@@ -252,6 +260,54 @@ public class AudioController
     }
   }
 
+  public void queNext()
+  {
+    if (!nextQueued)
+    {
+      nextQueued = true;
+      nextQueThread = new Thread(){
+        @Override
+        public void run()
+        {
+          Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+          Long startTime = System.currentTimeMillis();
+          super.run();
+          while (!nextQueued)
+          {
+            if (System.currentTimeMillis() > startTime + Controller.VETO_TIME_MS)
+            {
+              next();
+              break;
+            }
+            try
+            {
+              Thread.currentThread().sleep(500);
+            }
+            catch (InterruptedException ex)
+            {
+              ex.printStackTrace();
+            }
+          }
+          this.interrupt();
+        }
+      };
+      nextQueThread.start();
+    }
+  }
+
+  public void veto()
+  {
+    if (nextQueued)
+    {
+      nextQueued = false;
+      if (nextQueThread != null)
+      {
+        nextQueThread.interrupt();
+        nextQueThread = null;
+      }
+    }
+  }
+
   public void pause()
   {
     if (currentPlayer != null)
@@ -274,7 +330,7 @@ public class AudioController
     }
   }
 
-  public double getLength()
+  public Double getLength()
   {
     if (currentMedia != null)
     {
@@ -283,7 +339,7 @@ public class AudioController
     return 0d;
   }
 
-  public double currentPlayTime()
+  public Double currentPlayTime()
   {
     if (currentPlayer != null)
     {
