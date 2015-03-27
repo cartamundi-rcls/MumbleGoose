@@ -123,17 +123,13 @@ var currentSongId = -1;
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-//var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
-
+//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
+var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
+var isnexted = false;
 
 function refresh()
 {
 	getPlayerStatus();
-	/*getCurrentSong();
-	getRequests();
-	getQueList();
-	getvolume();*/
 	stream();
 }
 
@@ -153,12 +149,18 @@ function getPlayerStatus()
        	setRequests($.parseJSON('[' + result["requests"] + ']')[0]);
        	setVolume($.parseJSON('[' + result["volume"] + ']')[0]);
        	setduration($.parseJSON('[' + result["duration"] + ']')[0]);
+       	isNexted($.parseJSON('[' + result["isnexted"] + ']')[0]);
+
 	},
 	});
 }
 
 function setCurrentSong(result)
 {
+	if (currentSong != result)
+	{
+		songChanged();
+	}
 	if (result != undefined)
 	{
 		currentSong = result;
@@ -297,6 +299,19 @@ function setduration(result)
 
 }
 
+
+function isNexted(nexted)
+{
+	if (!isnexted && nexted)
+	{
+		isnexted = true;
+	}
+}
+
+function songChanged()
+{
+	isnexted = false;
+}
 
 function getRequests()
 {

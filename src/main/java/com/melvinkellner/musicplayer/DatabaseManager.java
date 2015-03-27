@@ -213,23 +213,33 @@ public class DatabaseManager
     return false;
   }
 
-  public boolean addSong(String filePath)
+  public boolean addSong(String filePath, boolean shouldMoveFile)
   {
     String hash;
     MP3File mp3;
     try
     {
       hash = Controller.getMD5Checksum(filePath);
-      if (getSongByHash(hash) != null)
+      if (getSongByPath(filePath) != null)
       {
-        new File(filePath).delete();
+        return false;
+      }
+      else if (getSongByHash(hash) != null)
+      {
+        if (shouldMoveFile)
+        {
+          new File(filePath).delete();
+        }
       }
       else
       {
         File file = new File(filePath);
-        filePath = Controller.savedMusicDir + "/" + hash + ".mp3";
-        FileUtils.copyFile(file, new File(filePath));
-        file.delete();
+        if (shouldMoveFile)
+        {
+          filePath = Controller.savedMusicDir + "/" + hash + ".mp3";
+          FileUtils.copyFile(file, new File(filePath));
+          file.delete();
+        }
         mp3 = new MP3File(filePath);
 
         Song song = new Song();
@@ -287,6 +297,26 @@ public class DatabaseManager
       while(result.next())
       {
         if (result.getString("hash").equals(hash))
+        {
+          return getSongFromResult(result);
+        }
+      }
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public Song getSongByPath(String path)
+  {
+    try
+    {
+      ResultSet result = conn.createStatement().executeQuery("select * from SONGS");
+      while(result.next())
+      {
+        if (result.getString("path").equals(path))
         {
           return getSongFromResult(result);
         }
