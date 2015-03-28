@@ -434,6 +434,7 @@ public class Controller
       HashMap<String, Double> map = new HashMap<String, Double>();
       map.put("current", AudioController.instance.currentPlayTime());
       map.put("total", AudioController.instance.getLength());
+
       try
       {
         resultMap.put("duration", new Gson().toJson(map));

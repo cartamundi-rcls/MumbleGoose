@@ -19,8 +19,8 @@
         <element id="file-copy" path="$PROJECT_DIR$/libs/h2-1.4.181.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/libs/jEN.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/libs/jid3lib-0.5.4.jar" />
-        <element id="file-copy" path="$PROJECT_DIR$/libs/json-simple-1.1.1.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/libs/simple-5.1.5.jar" />
+        <element id="library" level="module" name="Gradle: commons-codec-1.10" module-name="MumbleGoose" />
       </element>
     </root>
   </artifact>
