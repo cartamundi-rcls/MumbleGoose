@@ -385,7 +385,11 @@ public class DatabaseManager
         Song song = getSongFromResult(result);
         if (song != null)
         {
-          if (song.getTitle() != null && song.getTitle().toLowerCase().contains(string.toLowerCase()))
+          if (string.equals("*"))
+          {
+            songs.add(song);
+          }
+          else if (song.getTitle() != null && song.getTitle().toLowerCase().contains(string.toLowerCase()))
           {
             songs.add(song);
           }

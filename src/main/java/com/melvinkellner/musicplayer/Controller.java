@@ -5,6 +5,7 @@ import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Track;
 import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
@@ -37,6 +38,10 @@ public class Controller
   public static double DEFAULT_VOLUME = 0.5D;
   public static String ECHONEST_API_KEY = "Your key here";
   public static int SERVER_PORT = 8080;
+  public static int MAX_CACHED_ITEMS = 5;
+
+  public static String NEXT_SOUND = "";
+  public static String VETO_SOUND = "";
 
 
   public static String ipadress = "IP_ADDRES";
@@ -44,7 +49,7 @@ public class Controller
           "findsongbystring", "scanForNew", "shuffleplaylist",
           "setvolume", "getvolume", "getcurrentsong", "deletesong", "editsong", "identifysong",
           "findmissingtags", "getspecials", "playspecial", "uploadfile",
-          "getduration", "stream", "getsongbase64byid", "playerstatus", "veto"};
+          "getduration", "stream", "getsongbase64byid", "playerstatus", "veto", "getnextAndVetoSounds"};
 
   public static byte[] createChecksum(String filename) throws Exception {
     InputStream fis =  new FileInputStream(filename);
@@ -77,6 +82,7 @@ public class Controller
 
   public Controller()
   {
+
     File configFile = new File("server.cfg");
     if (configFile.exists())
     {
@@ -111,8 +117,14 @@ public class Controller
           {Controller.ALLOW_VETO = Boolean.parseBoolean(lines.get(i).replace("ALLOW_VETO=",""));}
           else if (lines.get(i).startsWith("VETO_TIME_MS="))
           {Controller.VETO_TIME_MS = Integer.parseInt(lines.get(i).replace("VETO_TIME_MS=", ""));}
-
+          else if (lines.get(i).startsWith("MAX_CACHED_ITEMS="))
+          {Controller.MAX_CACHED_ITEMS = Integer.parseInt(lines.get(i).replace("MAX_CACHED_ITEMS=", ""));}
         }
+
+        Controller.NEXT_SOUND = Base64.encodeBase64String(FileUtils.readFileToByteArray(
+            new File(Controller.SOUNDBYTE_DIR + "/" + "next.mp3")));
+        Controller.VETO_SOUND = Base64.encodeBase64String(FileUtils.readFileToByteArray(
+            new File(Controller.SOUNDBYTE_DIR + "/" + "veto.mp3")));
       }
       catch (IOException e)
       {
@@ -554,7 +566,10 @@ public class Controller
         if (value.equals("start"))
         {
           StreamManager.instance.addStreamer(query.get(Controller.ipadress));
-          return Boolean.toString(StreamManager.instance.isStreaming);
+          HashMap<String, Integer> map = new HashMap<String, Integer>();
+          map.put("cacheSize", Controller.MAX_CACHED_ITEMS);
+          map.put("isStreaming", 1);
+          return new Gson().toJson(map);
         } else if (value.equals("stop"))
         {
           StreamManager.instance.removeStreamer(query.get(Controller.ipadress));
@@ -581,6 +596,13 @@ public class Controller
     else if (command.equals(COMMANDS[23]))
     {
       AudioController.instance.veto();
+    }
+    else if (command.equals(COMMANDS[24]))
+    {
+      HashMap<String, String> map = new HashMap<String, String>();
+      map.put("nextSound", Controller.NEXT_SOUND);
+      map.put("vetoSound", Controller.VETO_SOUND);
+      return new Gson().toJson(map);
     }
     return command;
   }

@@ -115,26 +115,48 @@ function fancyshit()
 }
 
 
+
+
+
 var refreshTimer = 500;
 window.setInterval(refresh, refreshTimer);
 
 var currentSongId = -1;
+var streamCacheSize = 3;
 
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
 var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
 //var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
-
+var nextSound = "";
+var vetoSound = "";
+var isnexted = false;
+var isvetoed = false;
+setSounds();
 
 function refresh()
 {
 	getPlayerStatus();
-	/*getCurrentSong();
-	getRequests();
-	getQueList();
-	getvolume();*/
 	stream();
+}
+
+
+function setSounds()
+{
+	$.ajax({
+		type: 'GET',
+		url: porturl,
+		data: 'playerstatus=playerstatus',
+		dataType: 'json',
+		timeout: 6000,
+		cache: false,
+		success: function(result)
+		{
+			nextSound = $.parseJSON('[' + result["nextSound"] + ']')[0]
+			vetoSound =$.parseJSON('[' + result["vetoSound"] + ']')[0]
+		},
+	});
 }
 
 function getPlayerStatus()
@@ -153,14 +175,34 @@ function getPlayerStatus()
        	setRequests($.parseJSON('[' + result["requests"] + ']')[0]);
        	setVolume($.parseJSON('[' + result["volume"] + ']')[0]);
        	setduration($.parseJSON('[' + result["duration"] + ']')[0]);
+       	isNexted($.parseJSON('[' + result["isnexted"] + ']')[0]);
 	},
 	});
+}
+
+function isNexted(bool)
+{
+	if (isnexted && !bool)
+	{
+		isvetoed = true;
+		playVeto();
+	}
+	if (!isnexted && bool)
+	{
+		isnexted = true;
+		playNextSound();
+	}
 }
 
 function setCurrentSong(result)
 {
 	if (result != undefined)
 	{
+		if (currentSongs != result)
+		{
+			isnexted = false;
+			isvetoed = false;
+		}
 		currentSong = result;
 		currentSongLocation = result["path"];
 		currentSongId = result["id"];
@@ -447,7 +489,12 @@ function startstream()
 		cache: false,
 		success: function(result)
 		{
-			streaming = result;
+			var istreaming = result["isStreaming"];
+			if (isstreaming == 1)
+		  {
+			 	streaming = true;
+		  }
+			streamCacheSize = result["cacheSize"];
 			document.getElementById("streamButton").innerHTML = "STOP STREAM";
 		},
 		});
@@ -535,7 +582,13 @@ function playInSync(position)
 			start_time = new Date().getTime()
 			cachedSong[playingId] == null;
 			playingId = currentSong["id"];	
+			player.addEventListener('ended', function(e)
+			{
+			  player.src = null; 
+			}, false);
+
 			player.src = "data:audio/mp3;base64," + cachedSong[currentSong["id"]];
+			
 			player.autoplay = true;
 			start_time = (new Date().getTime() - start_time) / 1000;
 		}
@@ -579,29 +632,33 @@ function setCachedSong(id)
 {
 	if (cachedSong[id] == null || cachedSong[id] == "null" || cachedSong[id] == "attempting")
 	{
-		if (cachedSong[id] != "attempting")
+		if (cachedSong.length < streamCacheSize)
 		{
-			cachedSong[id] = "attempting";
-			$.ajax({
-			type: 'GET',
-			url: porturl,
-			data: 'getsongbase64byid='+id,
-			dataType: 'text',
-			cache: false,
-			success: function(result)
+			if (cachedSong[id] != "attempting")
 			{
-				cachedSong[id] = result;
-			},
-			error: function (data) 
-			{
-		        cachedSong[id] = null;
-		    }
-			});	
+				cachedSong[id] = "attempting";
+				$.ajax({
+				type: 'GET',
+				url: porturl,
+				data: 'getsongbase64byid='+id,
+				dataType: 'text',
+				cache: false,
+				success: function(result)
+				{
+					cachedSong[id] = result;
+				},
+				error: function (data)
+				{
+							cachedSong[id] = null;
+					}
+				});
+			}
+			return true;
 		}
-		return true;
 	}
 	return false;
 }
+
 
 
 

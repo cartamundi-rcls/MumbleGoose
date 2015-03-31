@@ -22,32 +22,39 @@ public class StreamManager
     private HashMap<Integer, String> streamMap = new HashMap<Integer, String>();
     private HashMap<String, Long> activeStreamers = new HashMap<String, Long>();
     private final static int RECHECK_TIME = 30000;
+    private ArrayList<Song> songCacheList = new ArrayList<Song>();
+
 
     public void cacheSong(final Song song)
     {
+        if (!isStreaming)
+        {return;}
         if (song == null)
-        {return ;}
-        if (isStreaming && !streamMap.containsKey(song.getHash()))
+        {return;}
+        if (streamMap.size() < Controller.MAX_CACHED_ITEMS)
         {
-            streamMap.put(song.getId(), null);
-            new Thread()
+            if (!streamMap.containsKey(song.getHash()))
             {
-                @Override
-                public void run()
+                streamMap.put(song.getId(), null);
+                new Thread()
                 {
-                    super.run();
-                    try
+                    @Override
+                    public void run()
                     {
-                        streamMap.put(song.getId(), Base64.encodeBase64String(FileUtils.readFileToByteArray(new File(song.getPath()))));
+                        super.run();
+                        try
+                        {
+                            streamMap.put(song.getId(), Base64.encodeBase64String(FileUtils.readFileToByteArray(new File(song.getPath()))));
+                        }
+                        catch (IOException e)
+                        {
+                            streamMap.remove(song.getHash());
+                            e.printStackTrace();
+                        }
+                        this.interrupt();
                     }
-                    catch (IOException e)
-                    {
-                        streamMap.remove(song.getHash());
-                        e.printStackTrace();
-                    }
-                    this.interrupt();
-                }
-            }.start();
+                }.start();
+            }
         }
     }
 

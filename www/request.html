@@ -33,7 +33,7 @@ function searchEverything()
 	$.ajax({
 		type: 'GET',
 		url: porturl,
-	    data: 'findsongbystring=showall',
+	    data: 'findsongbystring=*',
 	    dataType: 'json',
 	    cache: false,
 	    success: function(result) 
