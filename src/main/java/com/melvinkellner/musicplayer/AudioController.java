@@ -161,6 +161,7 @@ public class AudioController
   public void normalizeSong(Song song)
   {
     //todo
+    
   }
 
   public void identifySong(Song song)

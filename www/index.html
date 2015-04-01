@@ -115,9 +115,6 @@ function fancyshit()
 }
 
 
-
-
-
 var refreshTimer = 500;
 window.setInterval(refresh, refreshTimer);
 
@@ -127,7 +124,6 @@ var streamCacheSize = 3;
 var audioplayer = document.getElementById("audioplayer");
 var currentSongLocation = null;
 var prevSongLoc = null;
-<<<<<<< HEAD
 var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
 //var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
 var nextSound = "";
@@ -135,11 +131,6 @@ var vetoSound = "";
 var isnexted = false;
 var isvetoed = false;
 setSounds();
-=======
-//var porturl = window.location.protocol + '//' + window.location.hostname + ':8080' + window.location.pathname + "index.html";
-var porturl = "http:" + '//' + "localhost" + ':8080' + "/" + "index.html";
-var isnexted = false;
->>>>>>> 2a8e01e77590fa1f8ff0af1912396e9c5ae952f2
 
 function refresh()
 {
@@ -182,10 +173,7 @@ function getPlayerStatus()
        	setVolume($.parseJSON('[' + result["volume"] + ']')[0]);
        	setduration($.parseJSON('[' + result["duration"] + ']')[0]);
        	isNexted($.parseJSON('[' + result["isnexted"] + ']')[0]);
-<<<<<<< HEAD
-=======
 
->>>>>>> 2a8e01e77590fa1f8ff0af1912396e9c5ae952f2
 	},
 	});
 }

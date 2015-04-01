@@ -496,7 +496,7 @@ public class Controller
       return findSongsByString(value);
     }
     else if (command.equals(COMMANDS[7]))
-    {.
+    {
       scanMusic(newMusicDir, true);
       scanMusic(savedMusicDir, false);
     }
