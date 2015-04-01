@@ -334,7 +334,11 @@ public class AudioController
   {
     if (currentMedia != null)
     {
-      return currentMedia.getDuration().toSeconds();
+      Double seconds = currentMedia.getDuration().toSeconds();
+      if (!Double.isNaN(seconds))
+      {
+        return seconds;
+      }
     }
     return 0d;
   }

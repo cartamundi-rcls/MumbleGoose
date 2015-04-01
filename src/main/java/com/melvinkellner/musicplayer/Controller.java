@@ -150,7 +150,7 @@ public class Controller
 
 
 
-  private void scanMusic(String dir)
+  private void scanMusic(String dir, boolean shouldMoveFile)
   {
     File[] fileList = new File(dir).listFiles();
     System.out.print(fileList.length);
@@ -160,12 +160,12 @@ public class Controller
       {
         if (file.getName().toLowerCase().endsWith("mp3"))
         {
-          DatabaseManager.instance.addSong(file.getAbsolutePath());
+          DatabaseManager.instance.addSong(file.getAbsolutePath(), shouldMoveFile);
         }
       }
       else
       {
-        scanMusic(file.getAbsolutePath());
+        scanMusic(file.getAbsolutePath(), shouldMoveFile);
       }
     }
   }
@@ -446,6 +446,7 @@ public class Controller
       HashMap<String, Double> map = new HashMap<String, Double>();
       map.put("current", AudioController.instance.currentPlayTime());
       map.put("total", AudioController.instance.getLength());
+
       try
       {
         resultMap.put("duration", new Gson().toJson(map));
@@ -495,8 +496,9 @@ public class Controller
       return findSongsByString(value);
     }
     else if (command.equals(COMMANDS[7]))
-    {
-      scanMusic(newMusicDir);
+    {.
+      scanMusic(newMusicDir, true);
+      scanMusic(savedMusicDir, false);
     }
     else if (command.equals(COMMANDS[8]))
     {
