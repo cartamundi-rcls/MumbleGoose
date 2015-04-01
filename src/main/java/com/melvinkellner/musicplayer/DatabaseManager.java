@@ -308,6 +308,7 @@ public class DatabaseManager
       {
         int id = result.getInt(2);
         Song song = getSongFromId(id);
+        StreamManager.instance.addSong(song, 0);
         conn.createStatement().execute("DELETE FROM REQUESTS WHERE song_id=" + id + " LIMIT 1");
         setCurrentRequests();
         setVisiblePlayList();
@@ -320,6 +321,7 @@ public class DatabaseManager
         {
           int id = result.getInt(2);
           Song song = getSongFromId(id);
+          StreamManager.instance.addSong(song, 0);
           conn.createStatement().execute("DELETE FROM PLAYLIST WHERE song_id=" + id + " LIMIT 1");
           setCurrentRequests();
           setVisiblePlayList();
@@ -328,6 +330,7 @@ public class DatabaseManager
       }
       setCurrentRequests();
       setVisiblePlayList();
+      StreamManager.instance.setStreamMap();
     }
     catch (SQLException e)
     {
@@ -344,25 +347,6 @@ public class DatabaseManager
       if (result.next())
       {
         return getSongFromResult(result);
-      }
-    }
-    catch (SQLException e)
-    {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  public Song[] getAllSongs()
-  {
-    final ArrayList<Song> songs = new ArrayList<Song>();
-    ResultSet result = null;
-    try
-    {
-      result = conn.createStatement().executeQuery("select * from SONGS ORDER BY artist, album, title");
-      while(result.next())
-      {
-        Song song = getSongFromResult(result);
       }
     }
     catch (SQLException e)
@@ -440,10 +424,12 @@ public class DatabaseManager
     {
       int id = result.getInt("song_id");
       Song song = getSongFromId(id);
+      int i = 1;
       if (song != null)
       {
         songs.add(song);
-        StreamManager.instance.cacheSong(song);
+        StreamManager.instance.addSong(song, i);
+        i++;
       }
     }
     currentRequests = songs;
@@ -457,10 +443,12 @@ public class DatabaseManager
     {
       int id = result.getInt("song_id");
       Song song = getSongFromId(id);
+      int i = currentRequests.size() - 1;
       if (song != null)
       {
         visiblePlayList[result.getRow() - 1] = song;
-        StreamManager.instance.cacheSong(song);
+        StreamManager.instance.addSong(song, i);
+        i++;
       }
     }
     playlistJSON = new Gson().toJson(DatabaseManager.instance.visiblePlayList);

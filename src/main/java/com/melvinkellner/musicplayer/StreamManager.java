@@ -22,7 +22,55 @@ public class StreamManager
     private HashMap<Integer, String> streamMap = new HashMap<Integer, String>();
     private HashMap<String, Long> activeStreamers = new HashMap<String, Long>();
     private final static int RECHECK_TIME = 30000;
-    private ArrayList<Song> songCacheList = new ArrayList<Song>();
+    private Song[] songs = new Song[Controller.MAX_CACHED_ITEMS];
+
+    public void addSong(Song song, int index)
+    {
+        if (isStreaming)
+        {
+            if (index > 0 && index < songs.length)
+            {
+                songs[index] = song;
+            }
+        }
+    }
+
+
+    public void setStreamMap()
+    {
+        ArrayList<Integer> unusedId = new ArrayList<Integer>();
+        Iterator<Map.Entry<Integer, String>> it = streamMap.entrySet().iterator();
+        while (it.hasNext())
+        {
+            int id = it.next().getKey();
+            boolean isIn = false;
+            inner:for (int i = 0;i<songs.length;i++)
+            {
+                if (songs[i] != null && id == songs[i].getId())
+                {
+                    isIn = true;
+                    break inner;
+                }
+            }
+            if (!isIn)
+            {
+                unusedId.add(id);
+            }
+        }
+        for (Integer key : unusedId)
+        {
+            streamMap.remove(key);
+        }
+        System.gc();
+        for (int i = 0;i<songs.length;i++)
+        {
+            if (songs[i] != null && !streamMap.containsKey(songs[i].getId()))
+            {
+                cacheSong(songs[i]);
+            }
+        }
+        songs = new Song[Controller.MAX_CACHED_ITEMS];
+    }
 
 
     public void cacheSong(final Song song)
