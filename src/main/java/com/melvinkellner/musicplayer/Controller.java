@@ -497,6 +497,7 @@ public class Controller
     }
     else if (command.equals(COMMANDS[7]))
     {
+      Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
       scanMusic(newMusicDir, true);
       scanMusic(savedMusicDir, false);
     }

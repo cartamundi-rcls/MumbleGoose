@@ -273,11 +273,12 @@ public class AudioController
           Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
           Long startTime = System.currentTimeMillis();
           super.run();
-          while (!nextQueued)
+          while (nextQueued)
           {
             if (System.currentTimeMillis() > startTime + Controller.VETO_TIME_MS)
             {
               next();
+              this.interrupt();
               break;
             }
             try
@@ -298,7 +299,7 @@ public class AudioController
 
   public void veto()
   {
-    if (nextQueued)
+    if (nextQueued && Controller.ALLOW_VETO)
     {
       nextQueued = false;
       if (nextQueThread != null)
