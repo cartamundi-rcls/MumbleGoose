@@ -111,6 +111,7 @@ public class AudioController
       song.getMaxVolume();
       System.gc();
       currentSong = song;
+      StreamManager.instance.revalidateCache();
       normalizeSong(song);
       currentSongJSON = new Gson().toJson(AudioController.instance.currentSong);
       currentMedia = new Media(new File(song.getPath()).toURI().toString());

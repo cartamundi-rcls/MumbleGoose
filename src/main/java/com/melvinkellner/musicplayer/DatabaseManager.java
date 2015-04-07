@@ -338,7 +338,6 @@ public class DatabaseManager
       {
         int id = result.getInt(2);
         Song song = getSongFromId(id);
-        StreamManager.instance.addSong(song, 0);
         conn.createStatement().execute("DELETE FROM REQUESTS WHERE song_id=" + id + " LIMIT 1");
         setCurrentRequests();
         setVisiblePlayList();
@@ -351,16 +350,12 @@ public class DatabaseManager
         {
           int id = result.getInt(2);
           Song song = getSongFromId(id);
-          StreamManager.instance.addSong(song, 0);
           conn.createStatement().execute("DELETE FROM PLAYLIST WHERE song_id=" + id + " LIMIT 1");
           setCurrentRequests();
           setVisiblePlayList();
           return song;
         }
       }
-      setCurrentRequests();
-      setVisiblePlayList();
-      StreamManager.instance.setStreamMap();
     }
     catch (SQLException e)
     {
@@ -450,15 +445,15 @@ public class DatabaseManager
   {
     ArrayList<Song> songs = new ArrayList<Song>();
     ResultSet result = conn.createStatement().executeQuery("select * from REQUESTS");
-    while (result.next())
+      int i = 1;
+      while (result.next())
     {
       int id = result.getInt("song_id");
       Song song = getSongFromId(id);
-      int i = 1;
+
       if (song != null)
       {
         songs.add(song);
-        StreamManager.instance.addSong(song, i);
         i++;
       }
     }
@@ -469,15 +464,15 @@ public class DatabaseManager
   public void setVisiblePlayList() throws SQLException
   {
     ResultSet result = conn.createStatement().executeQuery("select * from PLAYLIST LIMIT " + Integer.toString(Controller.MAX_VISIBLE_PLAYLIST));
-    while (result.next())
+
+  int i = currentRequests.size() + 1;
+  while (result.next())
     {
       int id = result.getInt("song_id");
       Song song = getSongFromId(id);
-      int i = currentRequests.size() - 1;
       if (song != null)
       {
         visiblePlayList[result.getRow() - 1] = song;
-        StreamManager.instance.addSong(song, i);
         i++;
       }
     }

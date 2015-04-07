@@ -7,6 +7,7 @@ import org.h2.engine.Database;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,21 +23,22 @@ public class StreamManager
     private HashMap<Integer, String> streamMap = new HashMap<Integer, String>();
     private HashMap<String, Long> activeStreamers = new HashMap<String, Long>();
     private final static int RECHECK_TIME = 30000;
-    private Song[] songs = new Song[Controller.MAX_CACHED_ITEMS];
+    private ArrayList<Song> songs = new ArrayList<Song>();
 
-    public void addSong(Song song, int index)
+    public void revalidateCache()
     {
-        if (isStreaming)
+        cacheSongs();
+    }
+
+    private void addSong(Song song)
+    {
+        if (songs.size() < Controller.MAX_CACHED_ITEMS)
         {
-            if (index > 0 && index < songs.length)
-            {
-                songs[index] = song;
-            }
+            songs.add(song);
         }
     }
 
-
-    public void setStreamMap()
+    private void setStreamMap()
     {
         ArrayList<Integer> unusedId = new ArrayList<Integer>();
         Iterator<Map.Entry<Integer, String>> it = streamMap.entrySet().iterator();
@@ -44,9 +46,9 @@ public class StreamManager
         {
             int id = it.next().getKey();
             boolean isIn = false;
-            inner:for (int i = 0;i<songs.length;i++)
+            inner:for (int i = 0;i<songs.size();i++)
             {
-                if (songs[i] != null && id == songs[i].getId())
+                if (songs.get(i) != null && id == songs.get(i).getId())
                 {
                     isIn = true;
                     break inner;
@@ -62,14 +64,14 @@ public class StreamManager
             streamMap.remove(key);
         }
         System.gc();
-        for (int i = 0;i<songs.length;i++)
+        for (int i = 0;i<songs.size();i++)
         {
-            if (songs[i] != null && !streamMap.containsKey(songs[i].getId()))
+            if (songs.get(i) != null && !streamMap.containsKey(songs.get(i).getId()))
             {
-                cacheSong(songs[i]);
+                cacheSong(songs.get(i));
             }
         }
-        songs = new Song[Controller.MAX_CACHED_ITEMS];
+        songs = new ArrayList<Song>();
     }
 
 
@@ -81,7 +83,7 @@ public class StreamManager
         {return;}
         if (streamMap.size() < Controller.MAX_CACHED_ITEMS)
         {
-            if (!streamMap.containsKey(song.getHash()))
+            if (!streamMap.containsKey(song.getId()))
             {
                 streamMap.put(song.getId(), null);
                 new Thread()
@@ -96,7 +98,7 @@ public class StreamManager
                         }
                         catch (IOException e)
                         {
-                            streamMap.remove(song.getHash());
+                            streamMap.remove(song.getId());
                             e.printStackTrace();
                         }
                         this.interrupt();
@@ -148,14 +150,16 @@ public class StreamManager
 
     private void cacheSongs()
     {
-        cacheSong(AudioController.instance.currentSong);
-        for (Song song : DatabaseManager.currentRequests)
+        if (isStreaming)
         {
-            cacheSong(song);
-        }
-        for (Song song : DatabaseManager.visiblePlayList)
-        {
-            cacheSong(song);
+            addSong(AudioController.instance.currentSong);
+            for (Song song : DatabaseManager.currentRequests) {
+                addSong(song);
+            }
+            for (Song song : DatabaseManager.visiblePlayList) {
+                addSong(song);
+            }
+            setStreamMap();
         }
     }
 
