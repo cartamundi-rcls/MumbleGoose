@@ -459,6 +459,7 @@ public class DatabaseManager
     }
     currentRequests = songs;
     requestJSON = new Gson().toJson(DatabaseManager.instance.currentRequests);
+    StreamManager.instance.revalidateCache();
   }
 
   public void setVisiblePlayList() throws SQLException
