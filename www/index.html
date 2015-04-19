@@ -519,7 +519,7 @@ function setRating(rating)
 var currentSong;
 var requests;
 var playlist;
-var cachedSong = new Array();
+var cachedSong = [[]];
 var streaming = false;
 var player = getPlayer();
 var soundbytePlayer = getPlayer();
@@ -586,7 +586,7 @@ function stream()
 			{
 				player.pause();
 			}
-			buildCache();
+            buildCache();
 		},
 		});
 	}
@@ -594,14 +594,19 @@ function stream()
 
 function playInSync(position)
 {
-	if (cachedSong.length > 0 && typeof cachedSong[0][1] != undefined && cachedSong[0][1] != null && cachedSong[0][1] != "null" && cachedSong[0][1] != "attempting" && cachedSong[0][1] != "")
+    if (typeof cachedSong[currentSong["id"]] === 'undefined' || typeof cachedSong[currentSong["id"]][0] === 'undefined')
+    {
+        removeCache(currentSong["id"]);
+    }
+
+	if (cachedSong.length > 0 && typeof cachedSong[currentSong["id"]][1] != undefined && cachedSong[currentSong["id"]][1] != null && cachedSong[currentSong["id"]][1] != "null" && cachedSong[currentSong["id"]][1] != "attempting" && cachedSong[currentSong["id"]][1] != "")
 	{
 		if (playingId != currentSong["id"])
 		{
 			start_time = new Date().getTime()
             if (playingId != -1)
             {
-			    moveCache();
+			    removeCache(playingId);
 			}
 			playingId = currentSong["id"];
 			player.addEventListener('ended', function(e)
@@ -609,7 +614,7 @@ function playInSync(position)
 			  player.src = null; 
 			}, false);
 
-			player.src = "data:audio/mp3;base64," + cachedSong[0][1];
+			player.src = "data:audio/mp3;base64," + cachedSong[currentSong["id"]][1];
 			
 			player.autoplay = true;
 			start_time = (new Date().getTime() - start_time) / 1000;
@@ -649,14 +654,18 @@ function getContainer() {
 	return container;
 }
 
-function buildCache()
+function getCacheArr()
 {
-    var index = 0;
+    var arr = new Array();
     if (typeof currentSong !== 'undefined')
     {
-        if (setCachedSong(currentSong["id"], index))
+        if (arr.length < streamCacheSize)
         {
-            return;
+            arr[arr.length] = currentSong["id"];
+        }
+        else
+        {
+            return arr;
         }
     }
     if (typeof requests !== 'undefined')
@@ -665,10 +674,13 @@ function buildCache()
         {
             if (requests[i] != null)
             {
-                index++;
-                if (setCachedSong(requests[i]["id"], index))
+                if (arr.length < streamCacheSize)
                 {
-                    return;
+                    arr[arr.length] = requests[i]["id"];
+                }
+                else
+                {
+                    return arr;
                 }
             }
         }
@@ -679,56 +691,90 @@ function buildCache()
         {
             if (playlist[i] != null)
             {
-                index++;
-                if (setCachedSong(playlist[i]["id"], index))
+                if (arr.length < streamCacheSize)
                 {
-                    return;
+                    arr[arr.length] = playlist[i]["id"];
+                }
+                else
+                {
+                    return arr;
                 }
             }
         }
     }
+    return arr;
+
 }
 
-function moveCache()
+function buildCache()
 {
-    cachedSong.splice(0, 1);
-}
-
-function setCachedSong(id, index)
-{
-    if (index < streamCacheSize)
-	{
-        if (typeof cachedSong[index] === 'undefined')
+    var cacheArr = getCacheArr();
+    for (var i = 0;i<cachedSong.length;i++)
+    {
+        var shouldRemain = false;
+        for (var x = 0;x<cacheArr.length;x++)
         {
-            cachedSong[index] = [id, ""];
-        }
-
-        if ((cachedSong[index] == null || cachedSong[index][1] == null || cachedSong[index][1] == "" || cachedSong[index][1] == "null" || cachedSong[index][1] == "attempting") || id != cachedSong[index][0])
-        {
-            
-			if (cachedSong[index][1] != "attempting")
-			{
-				cachedSong[index][1] = "attempting";
-				$.ajax({
-				type: 'GET',
-				url: porturl,
-				data: 'getsongbase64byid='+id,
-				dataType: 'text',
-				cache: false,
-				success: function(result)
-				{
-                    cachedSong[index][0] = id;
-					cachedSong[index][1] = result;
-				},
-				error: function (data)
-				{
-                    cachedSong[index][0] = id;
-                    cachedSong[index][1] = null;
+            if (typeof cachedSong[i] !== 'undefined' && typeof cachedSong[i][0] !== 'undefined' && cachedSong[i][0] != null)
+            {
+                if (cachedSong[i][0] == cacheArr[x])
+                {
+                    shouldRemain = true;
                 }
-				});
+            }
+        }
+        if (!shouldRemain)
+        {
+            if (typeof cachedSong[i] !== 'undefined' && typeof cachedSong[i][0] !== 'undefined' && cachedSong[i][0] != null)
+            {
+                removeCache[cachedSong[i][0]]
+            }
+        }
+    }
+
+    for (var x = 0;x<cacheArr.length;x++)
+    {
+        if (setCachedSong(cacheArr[x]))
+        {
+            return;
+        }
+    }
+}
+
+function removeCache(id)
+{
+    cachedSong[id] = [[null, null]];
+}
+
+function setCachedSong(id)
+{
+    if (typeof cachedSong[id] === 'undefined' || typeof cachedSong[id][0] === 'undefined')
+    {
+        removeCache(id);
+    }
+
+    if ((cachedSong[id] == null || cachedSong[id][1] == null || cachedSong[id][1] == "" || cachedSong[id][1] == "null" || cachedSong[id][1] == "attempting") || id != cachedSong[id][0])
+    {
+		if (cachedSong[id][1] != "attempting")
+		{
+			cachedSong[id][1] = "attempting";
+			 cachedSong[id][0] = id;
+			$.ajax({
+			type: 'GET',
+			url: porturl,
+			data: 'getsongbase64byid='+id,
+			dataType: 'text',
+			cache: false,
+			success: function(result)
+			{
+				cachedSong[id][1] = result;
+			},
+			error: function (data)
+			{
+				cachedSong[id][1] = null;
 			}
-			return true;
+			});
 		}
+		return true;
 	}
 	return false;
 }
