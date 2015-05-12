@@ -39,6 +39,7 @@ public class Controller
   public static String ECHONEST_API_KEY = "Your key here";
   public static int SERVER_PORT = 8080;
   public static int MAX_CACHED_ITEMS = 5;
+  public static int MAX_NEXT_ATTEMPTS = 2;
 
   public static String NEXT_SOUND = "";
   public static String VETO_SOUND = "";
@@ -119,6 +120,8 @@ public class Controller
           {Controller.VETO_TIME_MS = Integer.parseInt(lines.get(i).replace("VETO_TIME_MS=", ""));}
           else if (lines.get(i).startsWith("MAX_CACHED_ITEMS="))
           {Controller.MAX_CACHED_ITEMS = Integer.parseInt(lines.get(i).replace("MAX_CACHED_ITEMS=", ""));}
+          else if (lines.get(i).startsWith("MAX_NEXT_ATTEMPTS="))
+          {Controller.MAX_NEXT_ATTEMPTS = Integer.parseInt(lines.get(i).replace("MAX_NEXT_ATTEMPTS=", ""));}
         }
 
         Controller.NEXT_SOUND = Base64.encodeBase64String(FileUtils.readFileToByteArray(

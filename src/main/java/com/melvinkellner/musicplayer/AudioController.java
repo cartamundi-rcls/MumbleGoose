@@ -24,6 +24,7 @@ public class AudioController
   public boolean isCurrentlyPlaying = false;
   public double currentVolume = Controller.DEFAULT_VOLUME;
   public String currentSongJSON = "";
+  public int currentNextAttempts = 0;
 
   public boolean nextQueued = false;
   private Thread nextQueThread = null;
@@ -255,6 +256,7 @@ public class AudioController
       currentPlayer.stop();
       isCurrentlyPlaying = false;
     }
+    currentNextAttempts = 0;
     Song song = DatabaseManager.instance.getNextSong();
     if (song != null)
     {
@@ -264,8 +266,9 @@ public class AudioController
 
   public void queNext()
   {
-    if (!nextQueued)
+    if (!nextQueued && currentNextAttempts < Controller.MAX_NEXT_ATTEMPTS)
     {
+      currentNextAttempts++;
       nextQueued = true;
       nextQueThread = new Thread(){
         @Override
